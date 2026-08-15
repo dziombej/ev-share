@@ -39,11 +39,12 @@ Each phase is tagged with who executes it — some steps are OAuth/dashboard-gat
 - [x] Manually tested signup → signin against the deployed URL — account created, signed in successfully. No `@supabase/ssr`/`workerd` runtime mismatch surfaced.
 - [x] Ran `npx wrangler tail` during the test — all requests logged `Ok`, no runtime exceptions.
 
-### Phase 5 — Platform-native auto-deploy, not GitHub Actions (Owner: you, dashboard step)
-- [ ] In the Cloudflare dashboard: Workers & Pages → Create → connect this GitHub repo (`dziombej/ev-share`), branch `main`. This is a one-time GitHub App install/OAuth step with no CLI equivalent.
-- [ ] Set build command `npm run build`, deploy via `wrangler deploy` (Cloudflare auto-detects from `wrangler.jsonc` in most cases — confirm during setup).
-- [ ] Add `SUPABASE_URL`/`SUPABASE_KEY` as encrypted environment variables in the Workers Builds project settings (separate from the `wrangler secret put` values — Workers Builds runs in Cloudflare's own build environment, not your local one).
-- [ ] Result: **Cloudflare Workers Builds owns auto-deploy-on-merge to `main`** — matching `tech-stack.md`'s `ci_default_flow: auto-deploy-on-merge`. GitHub Actions stays scoped to lint + build only (a PR quality gate), with no deploy step — avoiding two competing deploy pipelines.
+### Phase 5 — Platform-native auto-deploy, not GitHub Actions (Owner: you, dashboard step) — ✅ done
+- [x] Cloudflare dashboard: ev-share Worker → Settings → Builds → Connect, GitHub App authorized, repo `dziombej/ev-share` branch `main` connected.
+- [x] Build command `npm run build`, deploy command `npx wrangler deploy` — **first attempt only set the deploy command and left build command blank**, so the build ran straight to `wrangler deploy` without ever running `astro build`, failing with `The entry-point file at "@astrojs/cloudflare/entrypoints/server" was not found`. Fixed by explicitly setting the build command in Settings → Builds → Configuration.
+- [x] Added `SUPABASE_URL`/`SUPABASE_KEY` in Settings → Variables and Secrets — **first attempt had a bad/placeholder value for `SUPABASE_URL`**, which shadowed the working CLI-set secret on the next auto-deploy and broke the live site (`500`, `Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL` — Astro's server-only env schema reads from the Worker's runtime bindings, and dashboard-set vars/secrets take precedence over ones set via `wrangler secret put` once a Git-connected build redeploys). Corrected directly in the dashboard; took effect immediately without a redeploy.
+- [x] Verified end-to-end: committed pending repo changes, pushed to `main`, confirmed via `wrangler deployments list` and `wrangler tail` that Workers Builds auto-built and deployed without a manual `wrangler deploy`. After the two fixes above, `/`, `/auth/signin`, `/auth/signup` return `200` and `/dashboard` returns `302` (unauthenticated redirect) on the live URL.
+- [x] Result: **Cloudflare Workers Builds owns auto-deploy-on-merge to `main`** — matching `tech-stack.md`'s `ci_default_flow: auto-deploy-on-merge`. GitHub Actions stays scoped to lint + build only (a PR quality gate), with no deploy step — avoiding two competing deploy pipelines.
 
 ### Phase 6 — Fix the CI branch mismatch (Owner: me) — ✅ done
 - [x] `.github/workflows/ci.yml`: changed `branches: [master]` → `branches: [main]` on both `push` and `pull_request` triggers, so the lint+build gate actually runs (it previously never fired on this repo).
@@ -54,12 +55,13 @@ Each phase is tagged with who executes it — some steps are OAuth/dashboard-gat
 
 ## What I can execute unattended vs. what needs you
 
-**Agent-executable (Phases 3, 6, 7 — done):** file edits only — renaming the worker in `wrangler.jsonc`, fixing the CI branch trigger, writing this plan file.
+**Agent-executable (Phases 3, 4, 6, 7 — done, plus the Phase 5 verification push):** file edits, `npm run build && npx wrangler deploy`, piped (non-interactive) `wrangler secret put`, committing and pushing to `main` to trigger/verify the Workers Build.
 
-**Requires you (Phases 1, 2, 4, 5):** Node version switch, `wrangler login` / `supabase login` (OAuth), creating/configuring the cloud Supabase project, pasting real secret values into `wrangler secret put` prompts, the Cloudflare dashboard GitHub-connection step, and the actual `wrangler deploy` + live verification. None of these can run unattended — they need either a browser OAuth flow or a secret value only you have.
+**Requires you (Phases 1, 2, 5):** Node/nvm install (a system-level change, confirmed with you first since no version manager existed on this machine), `wrangler login` (OAuth), `.env` creation (blocked for me by local permission settings on writing `.env` files), the Supabase dashboard "Confirm email" toggle, and the Cloudflare dashboard GitHub-connection + Builds/Variables configuration (dashboard-only, no CLI path). Both dashboard-config steps in Phase 5 were initially set up wrong (see above) — fixed after live verification caught them.
 
 ## Verification
 
-- `npx wrangler tail` shows clean request logs (no `Unexpected Node.js imports` errors) while exercising signup/signin against the deployed URL.
-- A push to `main` (after Phase 5) triggers a Cloudflare Workers Build automatically, without any GitHub Actions deploy step running.
+- `npx wrangler tail` shows clean request logs (no `Unexpected Node.js imports` errors) while exercising signup/signin against the deployed URL — confirmed on the first manual deploy (Phase 4).
+- A push to `main` (after Phase 5) triggers a Cloudflare Workers Build automatically, without any GitHub Actions deploy step running — confirmed via an empty verification commit; `wrangler deployments list` showed the new version appear without a local `wrangler deploy`.
 - GitHub Actions' `CI` check now appears on PRs against `main` (previously silently skipped due to the branch-name mismatch).
+- Live routes after the Phase 5 fixes: `/` → 200, `/auth/signin` → 200, `/auth/signup` → 200, `/dashboard` → 302 (unauthenticated redirect, per `PROTECTED_ROUTES` middleware).
