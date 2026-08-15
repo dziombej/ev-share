@@ -85,6 +85,12 @@ Creates the `pocs` table with RLS policies and the shared TypeScript types the A
 
 **Contract**: Export `listPocs(supabase): Promise<Poc[]>`, `createPoc(supabase, ownerId, input: CreatePocInput): Promise<Poc>`, `setPocAvailability(supabase, pocId, ownerId, isAvailable): Promise<Poc>` (the `ownerId` param is passed through as an extra `.eq("owner_id", ownerId)` filter alongside RLS — belt-and-suspenders, not a substitute for the RLS policy). `setPocAvailability` chains `.select().single()` on the update — Supabase's `.update()` alone doesn't report affected-row count, and `.single()` throws when zero rows match, which is the signal the toggle route uses to return 403.
 
+#### Addendum (discovered during implementation)
+
+**Files**: `src/lib/database.types.ts` (new, generated), `src/lib/supabase.ts` (modified), `eslint.config.js` (modified)
+
+**Why**: Strict-typed ESLint (`@typescript-eslint/no-unsafe-assignment`) failed on `.from("pocs")` calls without a generated Database schema type. Fixed by generating types via `npx supabase gen types typescript --local`, wiring `createServerClient<Database>()` in `src/lib/supabase.ts`, and adding an `ignores` entry for the generated file in `eslint.config.js` (machine-generated output shouldn't be hand-formatted/linted).
+
 ### Success Criteria:
 
 #### Automated Verification:

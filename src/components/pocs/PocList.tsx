@@ -11,8 +11,12 @@ interface Props {
 export default function PocList({ pocs: initialPocs, currentUserId }: Props) {
   const [pocs, setPocs] = useState(initialPocs);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
 
   async function handleToggle(poc: Poc, next: boolean) {
+    if (pendingIds.has(poc.id)) return;
+
+    setPendingIds((prev) => new Set(prev).add(poc.id));
     setPocs((prev) => prev.map((p) => (p.id === poc.id ? { ...p, isAvailable: next } : p)));
     setErrors((prev) => ({ ...prev, [poc.id]: "" }));
 
@@ -29,6 +33,12 @@ export default function PocList({ pocs: initialPocs, currentUserId }: Props) {
     } catch {
       setPocs((prev) => prev.map((p) => (p.id === poc.id ? { ...p, isAvailable: !next } : p)));
       setErrors((prev) => ({ ...prev, [poc.id]: "Couldn't update availability. Try again." }));
+    } finally {
+      setPendingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(poc.id);
+        return next;
+      });
     }
   }
 
@@ -58,7 +68,7 @@ export default function PocList({ pocs: initialPocs, currentUserId }: Props) {
                 <span className="text-sm text-blue-100/80">{poc.isAvailable ? "Available" : "Unavailable"}</span>
                 <Switch
                   checked={poc.isAvailable}
-                  disabled={!isOwner}
+                  disabled={!isOwner || pendingIds.has(poc.id)}
                   data-testid={`poc-${poc.id}-toggle`}
                   onCheckedChange={(checked) => {
                     if (isOwner) void handleToggle(poc, checked);

@@ -25,7 +25,7 @@ export async function listPocs(supabase: SupabaseDb): Promise<Poc[]> {
     throw error;
   }
 
-  return (data as PocRow[]).map(mapRow);
+  return data.map(mapRow);
 }
 
 export async function createPoc(supabase: SupabaseDb, ownerId: string, input: CreatePocInput): Promise<Poc> {

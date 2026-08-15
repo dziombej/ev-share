@@ -16,10 +16,11 @@ export const PATCH: APIRoute = async (context) => {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = context.params;
-  if (!id) {
-    return Response.json({ error: "Missing POC id" }, { status: 400 });
+  const idResult = z.uuid().safeParse(context.params.id);
+  if (!idResult.success) {
+    return Response.json({ error: "Invalid POC id" }, { status: 400 });
   }
+  const id = idResult.data;
 
   let body: unknown;
   try {

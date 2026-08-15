@@ -4,8 +4,8 @@ import { createClient } from "@/lib/supabase";
 import { createPoc } from "@/lib/pocs";
 
 const createPocSchema = z.object({
-  latitude: z.coerce.number().min(-90).max(90),
-  longitude: z.coerce.number().min(-180).max(180),
+  latitude: z.string().trim().min(1, "Latitude is required").transform(Number).pipe(z.number().min(-90).max(90)),
+  longitude: z.string().trim().min(1, "Longitude is required").transform(Number).pipe(z.number().min(-180).max(180)),
   powerRatingKw: z.coerce.number().positive().max(350),
 });
 
@@ -34,8 +34,8 @@ export const POST: APIRoute = async (context) => {
   try {
     await createPoc(supabase, context.locals.user.id, parsed.data);
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Failed to create POC";
-    return context.redirect(`/dashboard/pocs?error=${encodeURIComponent(message)}`);
+    console.error("Failed to create POC:", error);
+    return context.redirect(`/dashboard/pocs?error=${encodeURIComponent("Failed to register POC")}`);
   }
 
   return context.redirect("/dashboard/pocs");
