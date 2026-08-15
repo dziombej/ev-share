@@ -41,7 +41,7 @@ energy given and received across many households.
 | F-01 | `e2e-primary-flow-harness`          | (foundation) an automated e2e test can verify the primary flow                | —              | —                            | in-progress |
 | S-04 | `user-location-profile`             | user can set/update their own location                                       | —              | FR-003                      | ready    |
 | S-01 | `poc-registration-and-listing`      | user can register a POC, toggle its availability, and see all POCs           | —              | FR-004, FR-005, FR-006, US-01 | in-progress |
-| S-02 | `log-session-and-balance-ledger`    | user can log a charging session and see both balances update, with history   | S-01, F-01     | FR-007, FR-008, FR-009, FR-010, US-01 | proposed |
+| S-02 | `log-session-and-balance-ledger`    | user can log a charging session and see both balances update, with history   | S-01, F-01     | FR-007, FR-008, FR-009, FR-010, US-01 | planning |
 | S-03 | `unified-landing-page`              | user's landing page shows balance, history, and available POCs together      | S-01, S-02     | FR-011, US-01                | proposed |
 
 ## Baseline
@@ -109,7 +109,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Unknowns:**
   - Should a seeker be able to confirm or dispute a logged session's kWh amount? (PRD Open Question) — Owner: user. Block: no — the owner's entry is final for MVP per PRD Non-Goals; tracked as a v2 candidate.
 - **Risk:** This is the one domain invariant the whole product exists to protect (PRD guardrail: debit and credit always equal, no drift) — sequenced as early as S-01 allows since every other slice's value depends on this being provably correct first.
-- **Status:** proposed
+- **Status:** planning
 
 ### S-03: Unified landing page
 
