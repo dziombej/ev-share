@@ -359,9 +359,9 @@ Three net-new, additive migrations (new table, new RPC, new policy on an existin
 
 #### Automated
 
-- [x] 4.1 `npm run test:e2e` passes locally, including the new spec
-- [x] 4.2 Lint passes: `npm run lint`
+- [x] 4.1 `npm run test:e2e` passes locally, including the new spec — d4cbfe5
+- [x] 4.2 Lint passes: `npm run lint` — d4cbfe5
 
 #### Manual
 
-- [x] 4.3 Deleting saved auth state and re-running the suite re-provisions both identities automatically
+- [x] 4.3 Deleting saved auth state and re-running the suite re-provisions both identities automatically — d4cbfe5

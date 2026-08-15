@@ -1,7 +1,7 @@
 ---
 change_id: log-session-and-balance-ledger
 title: Log a charging session and update balances
-status: implementing
+status: implemented
 created: 2026-08-15
 updated: 2026-08-15
 archived_at: null
