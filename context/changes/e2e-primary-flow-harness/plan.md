@@ -195,6 +195,14 @@ Provision the pre-seeded test user, implement the login-once/reuse-session mecha
 
 **Contract**: Runs under the default `chromium` project (authenticated via the saved `storageState`). Navigates directly to `/dashboard`; asserts the welcome message (`data-testid="dashboard-welcome"`) shows the pre-seeded test user's email.
 
+#### 5. Hydration-safe fill helper
+
+**File**: `e2e/utils.ts` (new)
+
+**Intent**: Astro island hydration (`client:load`) can complete after Playwright's `fill()` already set the raw DOM value, causing React's controlled-input reconciliation to reset it back to empty — forms would otherwise submit with blank fields. `fillStable()` retries `fill()` until the value survives.
+
+**Contract**: Exports `fillStable(locator, value)`, used by `e2e/auth.setup.ts` and `e2e/specs/auth-round-trip.spec.ts` in place of plain `.fill()`.
+
 ### Success Criteria:
 
 #### Automated Verification:
@@ -206,7 +214,7 @@ Provision the pre-seeded test user, implement the login-once/reuse-session mecha
 #### Manual Verification:
 
 - Playwright's HTML report shows both specs passing
-- Supabase Studio (local, `http://127.0.0.1:54323`) shows the round-trip spec's throwaway user was actually created
+- Query `auth.users` directly (or use Supabase Studio, if available) to confirm the round-trip spec's throwaway user was created
 
 ---
 
@@ -308,7 +316,7 @@ N/A — no existing data or systems to migrate; this is new tooling only.
 #### Manual
 
 - [x] 3.4 Playwright's HTML report shows both specs passing — 9b59c92
-- [x] 3.5 Supabase Studio shows the round-trip spec's throwaway user was actually created — 9b59c92
+- [x] 3.5 Query `auth.users` directly (or use Supabase Studio, if available) to confirm the round-trip spec's throwaway user was created — 9b59c92
 
 ### Phase 4: CI wiring (fast-follow, lowest priority)
 

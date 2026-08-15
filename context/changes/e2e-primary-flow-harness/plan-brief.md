@@ -55,7 +55,7 @@ Playwright, configured against a local `astro dev` server backed by local Supaba
 | 3. Auth fixtures + specs | Working, passing local e2e suite | `enable_confirmations=false` reliance is local-only — must not assume this in CI without the same local Supabase setup |
 | 4. CI wiring (fast-follow) | `e2e-test` job in `ci.yml` | Explicitly lowest priority — can be dropped under time pressure |
 
-**Prerequisites:** Local Supabase running (`npx supabase start`, Docker required); Node 22.14.0.
+**Prerequisites:** Local Supabase running (`npx supabase start`, Docker required); Node 22.14.0. **`.dev.vars` must also point at local Supabase** (`SUPABASE_URL=http://127.0.0.1:54321`, `SUPABASE_KEY=<publishable key from `npx supabase status`>`) — the Cloudflare adapter reads `.dev.vars` directly at dev-server startup and unconditionally overrides `process.env`, so `.env.test`'s values alone are not enough for the spawned `npm run dev` server to reach local Supabase.
 **Estimated effort:** ~1 session across 3 required phases, CI phase as a stretch/fast-follow.
 
 ## Open Risks & Assumptions
