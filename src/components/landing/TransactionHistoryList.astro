@@ -1,0 +1,48 @@
+---
+import type { ChargingSession } from "@/types";
+
+interface Props {
+  sessions: ChargingSession[];
+  currentUserId: string;
+}
+
+const { sessions, currentUserId } = Astro.props;
+---
+
+<div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+  <h2 class="mb-4 text-xl font-semibold">History</h2>
+  {
+    sessions.length === 0 ? (
+      <p class="text-sm text-blue-100/60" data-testid="history-empty">
+        No sessions yet — register a charging point to start hosting.{" "}
+        <a href="/dashboard/pocs" class="underline hover:text-blue-100">
+          Register a charging point
+        </a>
+      </p>
+    ) : (
+      <div class="space-y-2" data-testid="history-list">
+        {sessions.map((session) => {
+          const isCredit = session.hostId === currentUserId;
+          const counterpartyEmail = isCredit ? session.seekerEmail : session.hostEmail;
+          return (
+            <div
+              class="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm"
+              data-testid={`history-row-${session.id}`}
+            >
+              <div>
+                <p class:list={`font-medium ${isCredit ? "text-emerald-300" : "text-red-300"}`}>
+                  {isCredit ? "+" : "-"}
+                  {session.kwh.toFixed(2)} kWh — {counterpartyEmail}
+                </p>
+                <p class="text-blue-100/60">
+                  {session.poc.latitude}, {session.poc.longitude} · {session.poc.powerRatingKw} kW
+                </p>
+              </div>
+              <p class="text-blue-100/50">{new Date(session.createdAt).toLocaleString()}</p>
+            </div>
+          );
+        })}
+      </div>
+    )
+  }
+</div>

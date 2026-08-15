@@ -42,7 +42,7 @@ energy given and received across many households.
 | S-04 | `user-location-profile`             | user can set/update their own location                                       | —              | FR-003                      | in-progress |
 | S-01 | `poc-registration-and-listing`      | user can register a POC, toggle its availability, and see all POCs           | —              | FR-004, FR-005, FR-006, US-01 | in-progress |
 | S-02 | `log-session-and-balance-ledger`    | user can log a charging session and see both balances update, with history   | S-01, F-01     | FR-007, FR-008, FR-009, FR-010, US-01 | in-progress |
-| S-03 | `unified-landing-page`              | user's landing page shows balance, history, and available POCs together      | S-01, S-02     | FR-011, US-01                | planning |
+| S-03 | `unified-landing-page`              | user's landing page shows balance, history, and available POCs together      | S-01, S-02     | FR-011, US-01                | in-progress |
 
 ## Baseline
 
@@ -121,7 +121,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Purely a consolidation of data S-01 and S-02 already expose (no new logic of its own) — sequenced last since it has nothing to prove on its own, only to assemble.
-- **Status:** planning
+- **Status:** in-progress
 
 ## Backlog Handoff
 
@@ -144,6 +144,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Device geolocation** — Why parked: PRD Non-Goal; location (user and POC) is always manually entered.
 - **Dispute or confirmation flow for logged sessions** — Why parked: PRD Non-Goal; the POC owner's logged amount is final for MVP.
 - **Distance-sorting and power-level filtering (FR-012, FR-013)** — Why parked: both are nice-to-have priority in the PRD, not must-have; with a fixed, non-negotiable MVP timeline, the roadmap prioritizes finishing the full must-have loop (S-01 → S-02 → S-03) before adding discovery polish.
+- **POC lifecycle + session/discovery UX polish** — session-logged confirmation, seeker-email search/combobox, owner email + read-only Available/Busy (no checkbox) for non-owners on the public POC list, and a separate "my POCs" view with update-power/remove-POC actions (no such API exists yet). Why parked: surfaced during S-03 (`unified-landing-page`) manual QA, not part of any current slice's scope; genuinely new functionality (POC update/delete) plus edits to S-01/S-02-owned UI, so it needs its own change via `/10x-new` + `/10x-plan` rather than being folded into S-03's polish-only scope.
 
 ## Done
 

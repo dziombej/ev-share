@@ -1,6 +1,9 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Topbar from "@/components/Topbar.astro";
 import PocList from "@/components/pocs/PocList";
+import BalanceSummary from "@/components/landing/BalanceSummary.astro";
+import TransactionHistoryList from "@/components/landing/TransactionHistoryList.astro";
 import { createClient } from "@/lib/supabase";
 import { listPocs } from "@/lib/pocs";
 import { listSessionsForUser, computeBalance } from "@/lib/sessions";
@@ -16,47 +19,13 @@ const balance = user ? computeBalance(sessions, user.id) : 0;
 <Layout title="EV Share">
   <div class="bg-cosmic min-h-screen p-4">
     <div class="mx-auto max-w-2xl space-y-6">
+      <Topbar />
       {
         user ? (
-          <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
-            <h1 class="mb-2 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
-              Your balance
-            </h1>
-            <p class="text-3xl font-bold" data-testid="balance">
-              {balance.toFixed(2)} kWh
-            </p>
-
-            <h2 class="mt-6 mb-3 text-lg font-semibold">History</h2>
-            {sessions.length === 0 ? (
-              <p class="text-sm text-blue-100/60" data-testid="history-empty">
-                No sessions logged yet.
-              </p>
-            ) : (
-              <div class="space-y-2" data-testid="history-list">
-                {sessions.map((session) => {
-                  const isHost = session.hostId === user.id;
-                  const counterpartyEmail = isHost ? session.seekerEmail : session.hostEmail;
-                  return (
-                    <div
-                      class="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm"
-                      data-testid={`session-${session.id}`}
-                    >
-                      <div>
-                        <p class="font-medium">
-                          {isHost ? "+" : "-"}
-                          {session.kwh.toFixed(2)} kWh {isHost ? "to" : "from"} {counterpartyEmail}
-                        </p>
-                        <p class="text-blue-100/60">
-                          {session.poc.latitude}, {session.poc.longitude} — {session.poc.powerRatingKw} kW
-                        </p>
-                      </div>
-                      <p class="text-blue-100/50">{new Date(session.createdAt).toLocaleString()}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+          <Fragment>
+            <BalanceSummary balanceKwh={balance} />
+            <TransactionHistoryList sessions={sessions} currentUserId={user.id} />
+          </Fragment>
         ) : (
           <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-center text-white backdrop-blur-xl">
             <h1 class="mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">

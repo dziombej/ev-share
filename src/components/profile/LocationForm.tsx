@@ -15,6 +15,7 @@ interface FieldErrors {
 }
 
 export default function LocationForm({ initialLocation }: Props) {
+  const [mode, setMode] = useState<"view" | "edit">(initialLocation ? "view" : "edit");
   const [latitude, setLatitude] = useState(initialLocation ? String(initialLocation.latitude) : "");
   const [longitude, setLongitude] = useState(initialLocation ? String(initialLocation.longitude) : "");
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -70,16 +71,32 @@ export default function LocationForm({ initialLocation }: Props) {
     }
   }
 
-  const showEmptyHint = !initialLocation && !latitude && !longitude;
+  const hasLocation = Boolean(latitude && longitude);
+
+  if (mode === "view") {
+    return (
+      <div className="flex items-center justify-between gap-3 text-sm" data-testid="location-summary">
+        <span className="flex items-center gap-2 text-blue-100/80">
+          <MapPin className="size-4 shrink-0" />
+          {hasLocation ? `${latitude}, ${longitude}` : "Location not set"}
+        </span>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          data-testid="location-edit-button"
+          onClick={() => {
+            setMode("edit");
+          }}
+        >
+          Edit
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div>
-      {showEmptyHint ? (
-        <p className="mb-4 text-sm text-blue-100/60" data-testid="location-not-set">
-          Location not set
-        </p>
-      ) : null}
-
       <form className="space-y-4" onSubmit={(e) => void handleSubmit(e)} noValidate>
         <div>
           <Label htmlFor="latitude" className="mb-1 text-blue-100/80">
@@ -136,24 +153,38 @@ export default function LocationForm({ initialLocation }: Props) {
           </p>
         ) : null}
 
-        <Button
-          type="submit"
-          disabled={status === "pending"}
-          data-testid="submit-button"
-          className="w-full rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500"
-        >
-          {status === "pending" ? (
-            <span className="flex items-center gap-2">
-              <span className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-              Saving...
-            </span>
-          ) : (
-            <span className="flex items-center gap-2">
-              <MapPin className="size-4" />
-              Save location
-            </span>
-          )}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            type="submit"
+            disabled={status === "pending"}
+            data-testid="submit-button"
+            className="flex-1 rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500"
+          >
+            {status === "pending" ? (
+              <span className="flex items-center gap-2">
+                <span className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                Saving...
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                <MapPin className="size-4" />
+                Save location
+              </span>
+            )}
+          </Button>
+          {hasLocation ? (
+            <Button
+              type="button"
+              variant="outline"
+              data-testid="location-done-button"
+              onClick={() => {
+                setMode("view");
+              }}
+            >
+              Done
+            </Button>
+          ) : null}
+        </div>
       </form>
     </div>
   );

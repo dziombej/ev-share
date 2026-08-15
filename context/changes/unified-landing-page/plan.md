@@ -133,13 +133,13 @@ No schema or data changes. Purely presentational; no rollback concerns beyond a 
 
 #### Automated
 
-- [ ] 1.1 Lint passes: `npm run lint`
-- [ ] 1.2 Build passes: `npm run build`
-- [ ] 1.3 Type-check passes: `npx astro check`
+- [x] 1.1 Lint passes: `npm run lint`
+- [x] 1.2 Build passes: `npm run build`
+- [x] 1.3 Type-check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 1.4 Signed-out `/` shows the styled prompt card above the POC list, links work
-- [ ] 1.5 Zero-session signed-in user sees "0.00 kWh" and the history empty state with a working link
-- [ ] 1.6 Populated signed-in user sees correct balance and correctly signed/colored history rows, newest first
-- [ ] 1.7 Section order holds at desktop and mobile widths with no layout issues
+- [x] 1.4 Signed-out `/` shows the styled prompt card above the POC list, links work
+- [x] 1.5 Zero-session signed-in user sees "0.00 kWh" and the history empty state with a working link
+- [x] 1.6 Populated signed-in user sees correct balance and correctly signed/colored history rows, newest first
+- [x] 1.7 Section order holds at desktop and mobile widths with no layout issues

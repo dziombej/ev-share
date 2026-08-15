@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Topbar from "@/components/Topbar.astro";
 import LocationForm from "@/components/profile/LocationForm";
 import { createClient } from "@/lib/supabase";
 import { getUserLocation } from "@/lib/profile";
@@ -11,44 +12,24 @@ const location = supabase && user ? await getUserLocation(supabase, user.id) : n
 ---
 
 <Layout title="Dashboard">
-  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
-    <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-center text-white backdrop-blur-xl">
-      <h1 class="mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-        Dashboard
-      </h1>
-      <p class="text-blue-100/80" data-testid="dashboard-welcome">
-        Welcome, <span class="font-semibold text-white">{user?.email}</span>
-      </p>
-      <p class="mt-2 text-sm text-blue-100/50">This page is only for authenticated users.</p>
+  <div class="bg-cosmic min-h-screen p-4">
+    <div class="mx-auto max-w-2xl space-y-6">
+      <Topbar />
 
-      <div class="mt-6 rounded-2xl border border-white/10 bg-white/10 p-8 text-left text-white backdrop-blur-xl">
-        <h2 class="mb-4 text-xl font-semibold">Your location</h2>
-        <LocationForm initialLocation={location} client:load />
+      <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+        <h1 class="mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
+          Dashboard
+        </h1>
+        <p class="text-blue-100/80" data-testid="dashboard-welcome">
+          Welcome, <span class="font-semibold text-white">{user?.email}</span>
+        </p>
+        <p class="mt-2 text-sm text-blue-100/50">This page is only for authenticated users.</p>
       </div>
 
-      <a
-        href="/dashboard/pocs"
-        data-testid="pocs-link"
-        class="mt-6 inline-block rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm transition-colors hover:bg-white/20"
-      >
-        Charging points
-      </a>
-      <a
-        href="/dashboard/sessions"
-        data-testid="sessions-link"
-        class="mt-6 ml-3 inline-block rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm transition-colors hover:bg-white/20"
-      >
-        Log a session
-      </a>
-      <form method="POST" action="/api/auth/signout" class="mt-6">
-        <button
-          type="submit"
-          data-testid="signout-button"
-          class="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm transition-colors hover:bg-white/20"
-        >
-          Sign out
-        </button>
-      </form>
+      <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white">
+        <h2 class="mb-2 text-xs font-medium tracking-wide text-blue-100/60 uppercase">Your location</h2>
+        <LocationForm initialLocation={location} client:load />
+      </div>
     </div>
   </div>
 </Layout>

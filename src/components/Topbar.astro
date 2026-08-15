@@ -10,11 +10,24 @@ const { user } = Astro.locals;
       <>
         <span class="text-blue-100/70">{user.email}</span>
         <div class="flex items-center gap-3">
+          <a href="/" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+            Home
+          </a>
           <a href="/dashboard" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
             Dashboard
           </a>
+          <a href="/dashboard/pocs" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+            Charging points
+          </a>
+          <a href="/dashboard/sessions" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+            Log a session
+          </a>
           <form method="POST" action="/api/auth/signout">
-            <button type="submit" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+            <button
+              type="submit"
+              data-testid="signout-button"
+              class="text-purple-300 transition-colors hover:text-purple-100 hover:underline"
+            >
               Sign out
             </button>
           </form>
