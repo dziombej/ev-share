@@ -315,15 +315,15 @@ Three net-new, additive migrations (new table, new RPC, new policy on an existin
 
 #### Automated
 
-- [x] 1.1 Migrations apply cleanly against local Supabase: `npx supabase migration up`
-- [x] 1.2 Lint passes: `npm run lint`
-- [x] 1.3 Build passes: `npm run build`
-- [x] 1.4 Type-check passes: `npx astro check`
+- [x] 1.1 Migrations apply cleanly against local Supabase: `npx supabase migration up` — 14fbead
+- [x] 1.2 Lint passes: `npm run lint` — 14fbead
+- [x] 1.3 Build passes: `npm run build` — 14fbead
+- [x] 1.4 Type-check passes: `npx astro check` — 14fbead
 
 #### Manual
 
-- [ ] 1.5 Local Supabase Studio shows `charging_sessions` with RLS + the two policies, and `pocs` now also has `pocs_select_anon`
-- [ ] 1.6 `get_user_id_by_email` returns the right id for a known email and `null` for an unknown one
+- [x] 1.5 Local Supabase Studio shows `charging_sessions` with RLS + the two policies, and `pocs` now also has `pocs_select_anon` — 14fbead
+- [x] 1.6 `get_user_id_by_email` returns the right id for a known email and `null` for an unknown one — 14fbead
 
 ### Phase 2: API Routes
 
