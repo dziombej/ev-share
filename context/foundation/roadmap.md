@@ -37,7 +37,7 @@ energy given and received across many households.
 
 | ID   | Change ID                          | Outcome (user can …)                                                         | Prerequisites | PRD refs                   | Status   |
 | ---- | ----------------------------------- | ----------------------------------------------------------------------------- | -------------- | --------------------------- | -------- |
-| F-01 | `e2e-primary-flow-harness`          | (foundation) an automated e2e test can verify the primary flow                | —              | —                            | ready    |
+| F-01 | `e2e-primary-flow-harness`          | (foundation) an automated e2e test can verify the primary flow                | —              | —                            | in-progress |
 | S-04 | `user-location-profile`             | user can set/update their own location                                       | —              | FR-003                      | ready    |
 | S-01 | `poc-registration-and-listing`      | user can register a POC, toggle its availability, and see all POCs           | —              | FR-004, FR-005, FR-006, US-01 | ready    |
 | S-02 | `log-session-and-balance-ledger`    | user can log a charging session and see both balances update, with history   | S-01, F-01     | FR-007, FR-008, FR-009, FR-010, US-01 | proposed |
@@ -68,7 +68,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** No test runner exists yet in this repo; sequencing this first (rather than after S-02 ships) means the core ledger invariant gets an automated safety net from day one instead of being verified by hand only.
-- **Status:** ready
+- **Status:** in-progress
 
 ## Slices
 
