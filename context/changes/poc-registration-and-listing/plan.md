@@ -282,14 +282,14 @@ This is a net-new table with no existing data to migrate. Per `context/foundatio
 
 #### Automated
 
-- [x] 3.1 Lint passes: `npm run lint`
-- [x] 3.2 Build passes: `npm run build`
-- [x] 3.3 Type-check passes: `npx astro check`
+- [x] 3.1 Lint passes: `npm run lint` — 414aafb
+- [x] 3.2 Build passes: `npm run build` — 414aafb
+- [x] 3.3 Type-check passes: `npx astro check` — 414aafb
 
 #### Manual
 
-- [x] 3.4 User A can register a POC and see it appear in the list
-- [x] 3.5 User A's availability switch toggles instantly and persists across refresh
-- [x] 3.6 User B sees user A's POC but cannot toggle it
-- [x] 3.7 Signed-out visit to `/dashboard/pocs` redirects to `/auth/signin`
-- [x] 3.8 Invalid registration input (out-of-range lat/lng, non-positive power rating) shows an inline error and creates no row
+- [x] 3.4 User A can register a POC and see it appear in the list — 414aafb
+- [x] 3.5 User A's availability switch toggles instantly and persists across refresh — 414aafb
+- [x] 3.6 User B sees user A's POC but cannot toggle it — 414aafb
+- [x] 3.7 Signed-out visit to `/dashboard/pocs` redirects to `/auth/signin` — 414aafb
+- [x] 3.8 Invalid registration input (out-of-range lat/lng, non-positive power rating) shows an inline error and creates no row — 414aafb
