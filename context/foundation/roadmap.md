@@ -42,7 +42,7 @@ energy given and received across many households.
 | S-04 | `user-location-profile`             | user can set/update their own location                                       | —              | FR-003                      | ready    |
 | S-01 | `poc-registration-and-listing`      | user can register a POC, toggle its availability, and see all POCs           | —              | FR-004, FR-005, FR-006, US-01 | in-progress |
 | S-02 | `log-session-and-balance-ledger`    | user can log a charging session and see both balances update, with history   | S-01, F-01     | FR-007, FR-008, FR-009, FR-010, US-01 | planning |
-| S-03 | `unified-landing-page`              | user's landing page shows balance, history, and available POCs together      | S-01, S-02     | FR-011, US-01                | proposed |
+| S-03 | `unified-landing-page`              | user's landing page shows balance, history, and available POCs together      | S-01, S-02     | FR-011, US-01                | planning |
 
 ## Baseline
 
@@ -121,7 +121,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Purely a consolidation of data S-01 and S-02 already expose (no new logic of its own) — sequenced last since it has nothing to prove on its own, only to assemble.
-- **Status:** proposed
+- **Status:** planning
 
 ## Backlog Handoff
 
