@@ -1,0 +1,34 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PocForm from "@/components/pocs/PocForm";
+import PocList from "@/components/pocs/PocList";
+import { createClient } from "@/lib/supabase";
+import { listPocs } from "@/lib/pocs";
+
+const { user } = Astro.locals;
+// This page is under /dashboard, already gated by middleware — user is only ever
+// null here if reached in a way middleware didn't cover, which shouldn't happen.
+const currentUserId = user?.id ?? "";
+
+const error = Astro.url.searchParams.get("error");
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const pocs = supabase ? await listPocs(supabase) : [];
+---
+
+<Layout title="Charging points">
+  <div class="bg-cosmic min-h-screen p-4">
+    <div class="mx-auto max-w-2xl space-y-6">
+      <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+        <h1 class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
+          Register a charging point
+        </h1>
+        <PocForm serverError={error} client:load />
+      </div>
+
+      <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+        <h2 class="mb-4 text-xl font-semibold">All charging points</h2>
+        <PocList pocs={pocs} currentUserId={currentUserId} client:load />
+      </div>
+    </div>
+  </div>
+</Layout>

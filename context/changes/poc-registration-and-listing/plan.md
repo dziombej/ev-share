@@ -269,27 +269,27 @@ This is a net-new table with no existing data to migrate. Per `context/foundatio
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 Type-check passes: `npx astro check`
+- [x] 2.1 Lint passes: `npm run lint` — af3e818
+- [x] 2.2 Build passes: `npm run build` — af3e818
+- [x] 2.3 Type-check passes: `npx astro check` — af3e818
 
 #### Manual
 
-- [x] 2.4 POST `/api/pocs/create` creates a row; PATCH `/api/pocs/<id>/toggle` succeeds as owner (200) and fails as non-owner (403)
-- [x] 2.5 Unauthenticated POST to `/api/pocs/create` redirects to `/auth/signin`; unauthenticated PATCH to `/api/pocs/<id>/toggle` returns 401 (neither returns a 500)
+- [x] 2.4 POST `/api/pocs/create` creates a row; PATCH `/api/pocs/<id>/toggle` succeeds as owner (200) and fails as non-owner (403) — af3e818
+- [x] 2.5 Unauthenticated POST to `/api/pocs/create` redirects to `/auth/signin`; unauthenticated PATCH to `/api/pocs/<id>/toggle` returns 401 (neither returns a 500) — af3e818
 
 ### Phase 3: UI
 
 #### Automated
 
-- [ ] 3.1 Lint passes: `npm run lint`
-- [ ] 3.2 Build passes: `npm run build`
-- [ ] 3.3 Type-check passes: `npx astro check`
+- [x] 3.1 Lint passes: `npm run lint`
+- [x] 3.2 Build passes: `npm run build`
+- [x] 3.3 Type-check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 3.4 User A can register a POC and see it appear in the list
-- [ ] 3.5 User A's availability switch toggles instantly and persists across refresh
-- [ ] 3.6 User B sees user A's POC but cannot toggle it
-- [ ] 3.7 Signed-out visit to `/dashboard/pocs` redirects to `/auth/signin`
-- [ ] 3.8 Invalid registration input (out-of-range lat/lng, non-positive power rating) shows an inline error and creates no row
+- [x] 3.4 User A can register a POC and see it appear in the list
+- [x] 3.5 User A's availability switch toggles instantly and persists across refresh
+- [x] 3.6 User B sees user A's POC but cannot toggle it
+- [x] 3.7 Signed-out visit to `/dashboard/pocs` redirects to `/auth/signin`
+- [x] 3.8 Invalid registration input (out-of-range lat/lng, non-positive power rating) shows an inline error and creates no row
