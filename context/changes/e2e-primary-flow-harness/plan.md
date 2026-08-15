@@ -289,26 +289,26 @@ N/A — no existing data or systems to migrate; this is new tooling only.
 
 #### Automated
 
-- [x] 2.1 `npm run lint` passes
-- [x] 2.2 `npm run build` passes
+- [x] 2.1 `npm run lint` passes — 957f0f9
+- [x] 2.2 `npm run build` passes — 957f0f9
 
 #### Manual
 
-- [x] 2.3 Sign-in, sign-up, and dashboard pages render with no visual regression
-- [x] 2.4 Password-visibility toggle still works by hand
+- [x] 2.3 Sign-in, sign-up, and dashboard pages render with no visual regression — 957f0f9
+- [x] 2.4 Password-visibility toggle still works by hand — 957f0f9
 
 ### Phase 3: Auth fixtures + specs
 
 #### Automated
 
-- [ ] 3.1 `npm run test:e2e` passes locally with `npx supabase start` already running
-- [ ] 3.2 `npm run lint` passes
-- [ ] 3.3 `npm run build` passes
+- [x] 3.1 `npm run test:e2e` passes locally with `npx supabase start` already running
+- [x] 3.2 `npm run lint` passes
+- [x] 3.3 `npm run build` passes
 
 #### Manual
 
-- [ ] 3.4 Playwright's HTML report shows both specs passing
-- [ ] 3.5 Supabase Studio shows the round-trip spec's throwaway user was actually created
+- [x] 3.4 Playwright's HTML report shows both specs passing
+- [x] 3.5 Supabase Studio shows the round-trip spec's throwaway user was actually created
 
 ### Phase 4: CI wiring (fast-follow, lowest priority)
 
