@@ -315,10 +315,10 @@ Three net-new, additive migrations (new table, new RPC, new policy on an existin
 
 #### Automated
 
-- [ ] 1.1 Migrations apply cleanly against local Supabase: `npx supabase migration up`
-- [ ] 1.2 Lint passes: `npm run lint`
-- [ ] 1.3 Build passes: `npm run build`
-- [ ] 1.4 Type-check passes: `npx astro check`
+- [x] 1.1 Migrations apply cleanly against local Supabase: `npx supabase migration up`
+- [x] 1.2 Lint passes: `npm run lint`
+- [x] 1.3 Build passes: `npm run build`
+- [x] 1.4 Type-check passes: `npx astro check`
 
 #### Manual
 

@@ -34,6 +34,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      charging_sessions: {
+        Row: {
+          created_at: string
+          host_email: string
+          host_id: string
+          id: string
+          kwh: number
+          poc_id: string
+          seeker_email: string
+          seeker_id: string
+        }
+        Insert: {
+          created_at?: string
+          host_email: string
+          host_id: string
+          id?: string
+          kwh: number
+          poc_id: string
+          seeker_email: string
+          seeker_id: string
+        }
+        Update: {
+          created_at?: string
+          host_email?: string
+          host_id?: string
+          id?: string
+          kwh?: number
+          poc_id?: string
+          seeker_email?: string
+          seeker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "charging_sessions_poc_id_fkey"
+            columns: ["poc_id"]
+            isOneToOne: false
+            referencedRelation: "pocs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pocs: {
         Row: {
           created_at: string
@@ -72,7 +113,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_id_by_email: { Args: { p_email: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
