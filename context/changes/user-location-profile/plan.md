@@ -230,30 +230,30 @@ Purely additive: a new table and two new migrations. No existing data is touched
 
 #### Automated
 
-- [x] 1.1 Migrations apply cleanly: `npx supabase db reset` — ebdf45d
-- [x] 1.2 Type regeneration succeeds and includes a `profiles` table — ebdf45d
-- [x] 1.3 Lint passes — ebdf45d
-- [x] 1.4 Build passes — ebdf45d
+- [x] 1.1 Migrations apply cleanly: `npx supabase db reset` — d36a0d4
+- [x] 1.2 Type regeneration succeeds and includes a `profiles` table — d36a0d4
+- [x] 1.3 Lint passes — d36a0d4
+- [x] 1.4 Build passes — d36a0d4
 
 #### Manual
 
 - [ ] 1.5 RLS enforced: a second user's session cannot select the first user's row (superseded — see change.md Notes: RLS disabled project-wide per explicit user decision)
-- [x] 1.6 `updated_at` changes on update (trigger fires) — ebdf45d
+- [x] 1.6 `updated_at` changes on update (trigger fires) — d36a0d4
 
 ### Phase 2: API endpoint
 
 #### Automated
 
-- [x] 2.1 Lint passes
-- [x] 2.2 Build passes
+- [x] 2.1 Lint passes — 08bf2e2
+- [x] 2.2 Build passes — 08bf2e2
 
 #### Manual
 
-- [x] 2.3 First POST creates a row
-- [x] 2.4 Second POST updates the same row (no duplicate)
-- [x] 2.5 Unauthenticated request returns 401
-- [x] 2.6 Out-of-range coordinates return 400, write no row
-- [x] 2.7 Null/missing latitude or longitude returns 400
+- [x] 2.3 First POST creates a row — 08bf2e2
+- [x] 2.4 Second POST updates the same row (no duplicate) — 08bf2e2
+- [x] 2.5 Unauthenticated request returns 401 — 08bf2e2
+- [x] 2.6 Out-of-range coordinates return 400, write no row — 08bf2e2
+- [x] 2.7 Null/missing latitude or longitude returns 400 — 08bf2e2
 
 ### Phase 3: UI — inline location card on the dashboard
 
