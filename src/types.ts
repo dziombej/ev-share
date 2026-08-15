@@ -32,3 +32,9 @@ export interface LogSessionInput {
   seekerEmail: string;
   kwh: number;
 }
+
+export interface UserLocation {
+  latitude: number;
+  longitude: number;
+  updatedAt: string;
+}

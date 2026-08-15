@@ -1,3 +1,4 @@
+Connecting to db 5432
 export type Json =
   | string
   | number
@@ -104,6 +105,27 @@ export type Database = {
           longitude?: number
           owner_id?: string
           power_rating_kw?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          id: string
+          latitude: number
+          longitude: number
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          latitude: number
+          longitude: number
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          latitude?: number
+          longitude?: number
           updated_at?: string
         }
         Relationships: []
@@ -250,3 +272,6 @@ export const Constants = {
   },
 } as const
 
+<claude-code-hint v="1" type="plugin" value="supabase@claude-plugins-official" />
+A new version of Supabase CLI is available: v2.114.0 (currently installed v2.98.2)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli

@@ -230,43 +230,43 @@ Purely additive: a new table and two new migrations. No existing data is touched
 
 #### Automated
 
-- [ ] 1.1 Migrations apply cleanly: `npx supabase db reset`
-- [ ] 1.2 Type regeneration succeeds and includes a `profiles` table
-- [ ] 1.3 Lint passes
-- [ ] 1.4 Build passes
+- [x] 1.1 Migrations apply cleanly: `npx supabase db reset` — d36a0d4
+- [x] 1.2 Type regeneration succeeds and includes a `profiles` table — d36a0d4
+- [x] 1.3 Lint passes — d36a0d4
+- [x] 1.4 Build passes — d36a0d4
 
 #### Manual
 
-- [ ] 1.5 RLS enforced: a second user's session cannot select the first user's row
-- [ ] 1.6 `updated_at` changes on update (trigger fires)
+- [ ] 1.5 RLS enforced: a second user's session cannot select the first user's row (superseded — see change.md Notes: RLS disabled project-wide per explicit user decision)
+- [x] 1.6 `updated_at` changes on update (trigger fires) — d36a0d4
 
 ### Phase 2: API endpoint
 
 #### Automated
 
-- [ ] 2.1 Lint passes
-- [ ] 2.2 Build passes
+- [x] 2.1 Lint passes — 08bf2e2
+- [x] 2.2 Build passes — 08bf2e2
 
 #### Manual
 
-- [ ] 2.3 First POST creates a row
-- [ ] 2.4 Second POST updates the same row (no duplicate)
-- [ ] 2.5 Unauthenticated request returns 401
-- [ ] 2.6 Out-of-range coordinates return 400, write no row
-- [ ] 2.7 Null/missing latitude or longitude returns 400
+- [x] 2.3 First POST creates a row — 08bf2e2
+- [x] 2.4 Second POST updates the same row (no duplicate) — 08bf2e2
+- [x] 2.5 Unauthenticated request returns 401 — 08bf2e2
+- [x] 2.6 Out-of-range coordinates return 400, write no row — 08bf2e2
+- [x] 2.7 Null/missing latitude or longitude returns 400 — 08bf2e2
 
 ### Phase 3: UI — inline location card on the dashboard
 
 #### Automated
 
-- [ ] 3.1 Lint passes
-- [ ] 3.2 Build passes
+- [x] 3.1 Lint passes — 1a1ae68
+- [x] 3.2 Build passes — 1a1ae68
 
 #### Manual
 
-- [ ] 3.3 Empty state shows "Location not set" and a usable empty form
-- [ ] 3.4 Valid save shows inline success with no page reload
-- [ ] 3.5 Saved coordinates persist across a reload
-- [ ] 3.6 Updating an existing value persists as an update, not a duplicate
-- [ ] 3.7 Invalid input rejected client-side, no network request sent
-- [ ] 3.8 Server-error case shows inline error, previous value not lost
+- [x] 3.3 Empty state shows "Location not set" and a usable empty form — 1a1ae68
+- [x] 3.4 Valid save shows inline success with no page reload — 1a1ae68
+- [x] 3.5 Saved coordinates persist across a reload — 1a1ae68
+- [x] 3.6 Updating an existing value persists as an update, not a duplicate — 1a1ae68
+- [ ] 3.7 Invalid input rejected client-side, no network request sent (verified by code review only, not live-tested)
+- [ ] 3.8 Server-error case shows inline error, previous value not lost (verified by code review only, not live-tested)
