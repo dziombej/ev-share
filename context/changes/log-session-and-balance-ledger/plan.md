@@ -322,22 +322,22 @@ Three net-new, additive migrations (new table, new RPC, new policy on an existin
 
 #### Manual
 
-- [x] 1.5 Local Supabase Studio shows `charging_sessions` with RLS + the two policies, and `pocs` now also has `pocs_select_anon` — 14fbead
-- [x] 1.6 `get_user_id_by_email` returns the right id for a known email and `null` for an unknown one — 14fbead
+- [x] 1.5 Local Supabase Studio shows `charging_sessions` with RLS + the two policies, and `pocs` now also has `pocs_select_anon` — a4138dd
+- [x] 1.6 `get_user_id_by_email` returns the right id for a known email and `null` for an unknown one — a4138dd
 
 ### Phase 2: API Routes
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 Type-check passes: `npx astro check`
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 Type-check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 2.4 Valid POST creates a row with correct host/seeker ids and emails
-- [ ] 2.5 Not-owned pocId, self-charge, unknown seeker email, and out-of-range kWh all redirect with `?error=` and create no row
-- [ ] 2.6 Unauthenticated POST redirects to `/auth/signin` (no 500)
+- [x] 2.4 Valid POST creates a row with correct host/seeker ids and emails
+- [x] 2.5 Not-owned pocId, self-charge, unknown seeker email, and out-of-range kWh all redirect with `?error=` and create no row
+- [x] 2.6 Unauthenticated POST redirects to `/auth/signin` (no 500)
 
 ### Phase 3: UI
 

@@ -44,6 +44,20 @@ export async function logSession(
   hostEmail: string,
   input: LogSessionInput,
 ): Promise<ChargingSession> {
+  const { data: poc, error: pocError } = await supabase
+    .from("pocs")
+    .select("id, owner_id")
+    .eq("id", input.pocId)
+    .maybeSingle();
+
+  if (pocError) {
+    throw pocError;
+  }
+
+  if (poc?.owner_id !== hostId) {
+    throw new Error("You can only log sessions against your own charging point");
+  }
+
   const seekerId = await resolveUserIdByEmail(supabase, input.seekerEmail);
 
   if (!seekerId) {
