@@ -277,25 +277,25 @@ N/A — no existing data or systems to migrate; this is new tooling only.
 
 #### Automated
 
-- [x] 1.1 `npx playwright test --list` runs without a config error
-- [x] 1.2 `npm run lint` passes
-- [x] 1.3 `npm run build` passes
+- [x] 1.1 `npx playwright test --list` runs without a config error — 93b6a92
+- [x] 1.2 `npm run lint` passes — 93b6a92
+- [x] 1.3 `npm run build` passes — 93b6a92
 
 #### Manual
 
-- [x] 1.4 `npm run test:e2e:ui` opens the Playwright UI locally against the dev server
+- [x] 1.4 `npm run test:e2e:ui` opens the Playwright UI locally against the dev server — 93b6a92
 
 ### Phase 2: Selector convention on auth components
 
 #### Automated
 
-- [ ] 2.1 `npm run lint` passes
-- [ ] 2.2 `npm run build` passes
+- [x] 2.1 `npm run lint` passes
+- [x] 2.2 `npm run build` passes
 
 #### Manual
 
-- [ ] 2.3 Sign-in, sign-up, and dashboard pages render with no visual regression
-- [ ] 2.4 Password-visibility toggle still works by hand
+- [x] 2.3 Sign-in, sign-up, and dashboard pages render with no visual regression
+- [x] 2.4 Password-visibility toggle still works by hand
 
 ### Phase 3: Auth fixtures + specs
 

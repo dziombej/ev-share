@@ -42,6 +42,7 @@ export function FormField({
         <input
           id={id}
           name={name ?? id}
+          data-testid={id}
           type={type}
           value={value}
           onChange={(e) => {
