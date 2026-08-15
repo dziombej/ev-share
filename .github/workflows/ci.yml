@@ -22,3 +22,33 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+
+  e2e-test:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx astro sync
+      - name: Start local Supabase
+        run: npx supabase start -x studio
+      - name: Export local Supabase connection details
+        run: npx supabase status -o env 2>/dev/null | grep -E '^[A-Z_]+=' | sed 's/"//g' >> "$GITHUB_ENV"
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          E2E_USERNAME: e2e-test@example.com
+          E2E_PASSWORD: Str0ngTestPassw0rd!
+          SUPABASE_URL: ${{ env.API_URL }}
+          SUPABASE_KEY: ${{ env.PUBLISHABLE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ env.SECRET_KEY }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

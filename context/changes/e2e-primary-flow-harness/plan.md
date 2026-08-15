@@ -301,14 +301,14 @@ N/A — no existing data or systems to migrate; this is new tooling only.
 
 #### Automated
 
-- [x] 3.1 `npm run test:e2e` passes locally with `npx supabase start` already running
-- [x] 3.2 `npm run lint` passes
-- [x] 3.3 `npm run build` passes
+- [x] 3.1 `npm run test:e2e` passes locally with `npx supabase start` already running — 9b59c92
+- [x] 3.2 `npm run lint` passes — 9b59c92
+- [x] 3.3 `npm run build` passes — 9b59c92
 
 #### Manual
 
-- [x] 3.4 Playwright's HTML report shows both specs passing
-- [x] 3.5 Supabase Studio shows the round-trip spec's throwaway user was actually created
+- [x] 3.4 Playwright's HTML report shows both specs passing — 9b59c92
+- [x] 3.5 Supabase Studio shows the round-trip spec's throwaway user was actually created — 9b59c92
 
 ### Phase 4: CI wiring (fast-follow, lowest priority)
 
