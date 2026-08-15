@@ -315,53 +315,53 @@ Three net-new, additive migrations (new table, new RPC, new policy on an existin
 
 #### Automated
 
-- [ ] 1.1 Migrations apply cleanly against local Supabase: `npx supabase migration up`
-- [ ] 1.2 Lint passes: `npm run lint`
-- [ ] 1.3 Build passes: `npm run build`
-- [ ] 1.4 Type-check passes: `npx astro check`
+- [x] 1.1 Migrations apply cleanly against local Supabase: `npx supabase migration up` — 14fbead
+- [x] 1.2 Lint passes: `npm run lint` — 14fbead
+- [x] 1.3 Build passes: `npm run build` — 14fbead
+- [x] 1.4 Type-check passes: `npx astro check` — 14fbead
 
 #### Manual
 
-- [ ] 1.5 Local Supabase Studio shows `charging_sessions` with RLS + the two policies, and `pocs` now also has `pocs_select_anon`
-- [ ] 1.6 `get_user_id_by_email` returns the right id for a known email and `null` for an unknown one
+- [x] 1.5 Local Supabase Studio shows `charging_sessions` with RLS + the two policies, and `pocs` now also has `pocs_select_anon` — a4138dd
+- [x] 1.6 `get_user_id_by_email` returns the right id for a known email and `null` for an unknown one — a4138dd
 
 ### Phase 2: API Routes
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 Type-check passes: `npx astro check`
+- [x] 2.1 Lint passes: `npm run lint` — 901730c
+- [x] 2.2 Build passes: `npm run build` — 901730c
+- [x] 2.3 Type-check passes: `npx astro check` — 901730c
 
 #### Manual
 
-- [ ] 2.4 Valid POST creates a row with correct host/seeker ids and emails
-- [ ] 2.5 Not-owned pocId, self-charge, unknown seeker email, and out-of-range kWh all redirect with `?error=` and create no row
-- [ ] 2.6 Unauthenticated POST redirects to `/auth/signin` (no 500)
+- [x] 2.4 Valid POST creates a row with correct host/seeker ids and emails — 901730c
+- [x] 2.5 Not-owned pocId, self-charge, unknown seeker email, and out-of-range kWh all redirect with `?error=` and create no row — 901730c
+- [x] 2.6 Unauthenticated POST redirects to `/auth/signin` (no 500) — 901730c
 
 ### Phase 3: UI
 
 #### Automated
 
-- [ ] 3.1 Lint passes: `npm run lint`
-- [ ] 3.2 Build passes: `npm run build`
-- [ ] 3.3 Type-check passes: `npx astro check`
+- [x] 3.1 Lint passes: `npm run lint` — d4de67b
+- [x] 3.2 Build passes: `npm run build` — d4de67b
+- [x] 3.3 Type-check passes: `npx astro check` — d4de67b
 
 #### Manual
 
-- [ ] 3.4 Signed-out `/` shows the public POC list, no balance/history, sign-in/sign-up prompt
-- [ ] 3.5 Signed-in `/` shows the user's own balance and history alongside the POC list
-- [ ] 3.6 Logging a session as A for B updates both A's and B's `/` view by the identical amount
-- [ ] 3.7 Zero-POC host sees the "register a POC first" message instead of the form
-- [ ] 3.8 All invalid-input cases show an inline error and create no row
+- [x] 3.4 Signed-out `/` shows the public POC list, no balance/history, sign-in/sign-up prompt — d4de67b
+- [x] 3.5 Signed-in `/` shows the user's own balance and history alongside the POC list — d4de67b
+- [x] 3.6 Logging a session as A for B updates both A's and B's `/` view by the identical amount — d4de67b
+- [x] 3.7 Zero-POC host sees the "register a POC first" message instead of the form — d4de67b
+- [x] 3.8 All invalid-input cases show an inline error and create no row — d4de67b
 
 ### Phase 4: E2E — full US-01 flow
 
 #### Automated
 
-- [ ] 4.1 `npm run test:e2e` passes locally, including the new spec
-- [ ] 4.2 Lint passes: `npm run lint`
+- [x] 4.1 `npm run test:e2e` passes locally, including the new spec — d4cbfe5
+- [x] 4.2 Lint passes: `npm run lint` — d4cbfe5
 
 #### Manual
 
-- [ ] 4.3 Deleting saved auth state and re-running the suite re-provisions both identities automatically
+- [x] 4.3 Deleting saved auth state and re-running the suite re-provisions both identities automatically — d4cbfe5

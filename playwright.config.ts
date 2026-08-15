@@ -21,7 +21,11 @@ export default defineConfig({
   projects: [
     {
       name: "setup",
-      testMatch: /.*\.setup\.ts/,
+      testMatch: "auth.setup.ts",
+    },
+    {
+      name: "authenticate-seeker",
+      testMatch: "auth.seeker.setup.ts",
     },
     {
       name: "chromium",
@@ -29,7 +33,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         storageState: "playwright/.auth/user.json",
       },
-      dependencies: ["setup"],
+      dependencies: ["setup", "authenticate-seeker"],
     },
   ],
   webServer: {
