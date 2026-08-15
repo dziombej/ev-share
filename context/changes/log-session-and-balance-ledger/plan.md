@@ -329,31 +329,31 @@ Three net-new, additive migrations (new table, new RPC, new policy on an existin
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 Type-check passes: `npx astro check`
+- [x] 2.1 Lint passes: `npm run lint` — 901730c
+- [x] 2.2 Build passes: `npm run build` — 901730c
+- [x] 2.3 Type-check passes: `npx astro check` — 901730c
 
 #### Manual
 
-- [x] 2.4 Valid POST creates a row with correct host/seeker ids and emails
-- [x] 2.5 Not-owned pocId, self-charge, unknown seeker email, and out-of-range kWh all redirect with `?error=` and create no row
-- [x] 2.6 Unauthenticated POST redirects to `/auth/signin` (no 500)
+- [x] 2.4 Valid POST creates a row with correct host/seeker ids and emails — 901730c
+- [x] 2.5 Not-owned pocId, self-charge, unknown seeker email, and out-of-range kWh all redirect with `?error=` and create no row — 901730c
+- [x] 2.6 Unauthenticated POST redirects to `/auth/signin` (no 500) — 901730c
 
 ### Phase 3: UI
 
 #### Automated
 
-- [ ] 3.1 Lint passes: `npm run lint`
-- [ ] 3.2 Build passes: `npm run build`
-- [ ] 3.3 Type-check passes: `npx astro check`
+- [x] 3.1 Lint passes: `npm run lint`
+- [x] 3.2 Build passes: `npm run build`
+- [x] 3.3 Type-check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 3.4 Signed-out `/` shows the public POC list, no balance/history, sign-in/sign-up prompt
-- [ ] 3.5 Signed-in `/` shows the user's own balance and history alongside the POC list
-- [ ] 3.6 Logging a session as A for B updates both A's and B's `/` view by the identical amount
-- [ ] 3.7 Zero-POC host sees the "register a POC first" message instead of the form
-- [ ] 3.8 All invalid-input cases show an inline error and create no row
+- [x] 3.4 Signed-out `/` shows the public POC list, no balance/history, sign-in/sign-up prompt
+- [x] 3.5 Signed-in `/` shows the user's own balance and history alongside the POC list
+- [x] 3.6 Logging a session as A for B updates both A's and B's `/` view by the identical amount
+- [x] 3.7 Zero-POC host sees the "register a POC first" message instead of the form
+- [x] 3.8 All invalid-input cases show an inline error and create no row
 
 ### Phase 4: E2E — full US-01 flow
 

@@ -1,8 +1,92 @@
 ---
-import Welcome from "@/components/Welcome.astro";
 import Layout from "@/layouts/Layout.astro";
+import PocList from "@/components/pocs/PocList";
+import { createClient } from "@/lib/supabase";
+import { listPocs } from "@/lib/pocs";
+import { listSessionsForUser, computeBalance } from "@/lib/sessions";
+
+const { user } = Astro.locals;
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const pocs = supabase ? await listPocs(supabase) : [];
+
+const sessions = supabase && user ? await listSessionsForUser(supabase, user.id) : [];
+const balance = user ? computeBalance(sessions, user.id) : 0;
 ---
 
-<Layout>
-  <Welcome />
+<Layout title="EV Share">
+  <div class="bg-cosmic min-h-screen p-4">
+    <div class="mx-auto max-w-2xl space-y-6">
+      {
+        user ? (
+          <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+            <h1 class="mb-2 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
+              Your balance
+            </h1>
+            <p class="text-3xl font-bold" data-testid="balance">
+              {balance.toFixed(2)} kWh
+            </p>
+
+            <h2 class="mt-6 mb-3 text-lg font-semibold">History</h2>
+            {sessions.length === 0 ? (
+              <p class="text-sm text-blue-100/60" data-testid="history-empty">
+                No sessions logged yet.
+              </p>
+            ) : (
+              <div class="space-y-2" data-testid="history-list">
+                {sessions.map((session) => {
+                  const isHost = session.hostId === user.id;
+                  const counterpartyEmail = isHost ? session.seekerEmail : session.hostEmail;
+                  return (
+                    <div
+                      class="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm"
+                      data-testid={`session-${session.id}`}
+                    >
+                      <div>
+                        <p class="font-medium">
+                          {isHost ? "+" : "-"}
+                          {session.kwh.toFixed(2)} kWh {isHost ? "to" : "from"} {counterpartyEmail}
+                        </p>
+                        <p class="text-blue-100/60">
+                          {session.poc.latitude}, {session.poc.longitude} — {session.poc.powerRatingKw} kW
+                        </p>
+                      </div>
+                      <p class="text-blue-100/50">{new Date(session.createdAt).toLocaleString()}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-center text-white backdrop-blur-xl">
+            <h1 class="mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
+              EV Share
+            </h1>
+            <p class="mb-6 text-blue-100/80">Sign in to log charging sessions and track your kWh balance.</p>
+            <div class="flex justify-center gap-3">
+              <a
+                href="/auth/signin"
+                data-testid="signin-link"
+                class="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm transition-colors hover:bg-white/20"
+              >
+                Sign in
+              </a>
+              <a
+                href="/auth/signup"
+                data-testid="signup-link"
+                class="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500"
+              >
+                Sign up
+              </a>
+            </div>
+          </div>
+        )
+      }
+
+      <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+        <h2 class="mb-4 text-xl font-semibold">Available charging points</h2>
+        <PocList pocs={pocs} currentUserId={user?.id ?? ""} client:load />
+      </div>
+    </div>
+  </div>
 </Layout>
