@@ -259,14 +259,14 @@ Purely additive: a new table and two new migrations. No existing data is touched
 
 #### Automated
 
-- [x] 3.1 Lint passes
-- [x] 3.2 Build passes
+- [x] 3.1 Lint passes — 1a1ae68
+- [x] 3.2 Build passes — 1a1ae68
 
 #### Manual
 
-- [x] 3.3 Empty state shows "Location not set" and a usable empty form
-- [x] 3.4 Valid save shows inline success with no page reload
-- [x] 3.5 Saved coordinates persist across a reload
-- [x] 3.6 Updating an existing value persists as an update, not a duplicate
-- [ ] 3.7 Invalid input rejected client-side, no network request sent
-- [ ] 3.8 Server-error case shows inline error, previous value not lost
+- [x] 3.3 Empty state shows "Location not set" and a usable empty form — 1a1ae68
+- [x] 3.4 Valid save shows inline success with no page reload — 1a1ae68
+- [x] 3.5 Saved coordinates persist across a reload — 1a1ae68
+- [x] 3.6 Updating an existing value persists as an update, not a duplicate — 1a1ae68
+- [ ] 3.7 Invalid input rejected client-side, no network request sent (verified by code review only, not live-tested)
+- [ ] 3.8 Server-error case shows inline error, previous value not lost (verified by code review only, not live-tested)

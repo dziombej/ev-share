@@ -1,7 +1,7 @@
 ---
 change_id: user-location-profile
 title: User location profile
-status: implementing
+status: implemented
 created: 2026-08-15
 updated: 2026-08-15
 archived_at: null
