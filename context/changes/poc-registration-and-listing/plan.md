@@ -256,27 +256,27 @@ This is a net-new table with no existing data to migrate. Per `context/foundatio
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly against local Supabase: `npx supabase migration up`
-- [x] 1.2 Lint passes: `npm run lint`
-- [x] 1.3 Build passes: `npm run build`
-- [x] 1.4 Type-check passes: `npx astro check`
+- [x] 1.1 Migration applies cleanly against local Supabase: `npx supabase migration up` — 80cc033
+- [x] 1.2 Lint passes: `npm run lint` — 80cc033
+- [x] 1.3 Build passes: `npm run build` — 80cc033
+- [x] 1.4 Type-check passes: `npx astro check` — 80cc033
 
 #### Manual
 
-- [x] 1.5 Local Supabase Studio shows the `pocs` table with RLS enabled and the three policies
+- [x] 1.5 Local Supabase Studio shows the `pocs` table with RLS enabled and the three policies — 80cc033
 
 ### Phase 2: API Routes
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 Type-check passes: `npx astro check`
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 Type-check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 2.4 POST `/api/pocs/create` creates a row; PATCH `/api/pocs/<id>/toggle` succeeds as owner (200) and fails as non-owner (403)
-- [ ] 2.5 Unauthenticated POST to `/api/pocs/create` redirects to `/auth/signin`; unauthenticated PATCH to `/api/pocs/<id>/toggle` returns 401 (neither returns a 500)
+- [x] 2.4 POST `/api/pocs/create` creates a row; PATCH `/api/pocs/<id>/toggle` succeeds as owner (200) and fails as non-owner (403)
+- [x] 2.5 Unauthenticated POST to `/api/pocs/create` redirects to `/auth/signin`; unauthenticated PATCH to `/api/pocs/<id>/toggle` returns 401 (neither returns a 500)
 
 ### Phase 3: UI
 

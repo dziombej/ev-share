@@ -7,6 +7,7 @@ updated: 2026-08-15
 prd_version: 1
 main_goal: low-complexity
 top_blocker: time
+updated: 2026-08-15
 ---
 
 # Roadmap: EV Share
@@ -39,7 +40,7 @@ energy given and received across many households.
 | ---- | ----------------------------------- | ----------------------------------------------------------------------------- | -------------- | --------------------------- | -------- |
 | F-01 | `e2e-primary-flow-harness`          | (foundation) an automated e2e test can verify the primary flow                | —              | —                            | in-progress |
 | S-04 | `user-location-profile`             | user can set/update their own location                                       | —              | FR-003                      | ready    |
-| S-01 | `poc-registration-and-listing`      | user can register a POC, toggle its availability, and see all POCs           | —              | FR-004, FR-005, FR-006, US-01 | ready    |
+| S-01 | `poc-registration-and-listing`      | user can register a POC, toggle its availability, and see all POCs           | —              | FR-004, FR-005, FR-006, US-01 | in-progress |
 | S-02 | `log-session-and-balance-ledger`    | user can log a charging session and see both balances update, with history   | S-01, F-01     | FR-007, FR-008, FR-009, FR-010, US-01 | proposed |
 | S-03 | `unified-landing-page`              | user's landing page shows balance, history, and available POCs together      | S-01, S-02     | FR-011, US-01                | proposed |
 
@@ -95,7 +96,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Unknowns:**
   - Should POC location be shown precisely or approximately? (PRD Open Question) — Owner: user. Block: no — accepted as exact-location-for-now per PRD, revisit before wider rollout.
 - **Risk:** POC data is entirely self-reported with no verification mechanism (an accepted PRD limitation) — sequenced before S-02 since the ledger has nothing to log a session against until at least one POC exists.
-- **Status:** ready
+- **Status:** in-progress
 
 ### S-02: Log a charging session and update balances
 
