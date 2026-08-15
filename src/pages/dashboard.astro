@@ -1,7 +1,13 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import LocationForm from "@/components/profile/LocationForm";
+import { createClient } from "@/lib/supabase";
+import { getUserLocation } from "@/lib/profile";
 
 const { user } = Astro.locals;
+
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const location = supabase && user ? await getUserLocation(supabase, user.id) : null;
 ---
 
 <Layout title="Dashboard">
@@ -14,6 +20,12 @@ const { user } = Astro.locals;
         Welcome, <span class="font-semibold text-white">{user?.email}</span>
       </p>
       <p class="mt-2 text-sm text-blue-100/50">This page is only for authenticated users.</p>
+
+      <div class="mt-6 rounded-2xl border border-white/10 bg-white/10 p-8 text-left text-white backdrop-blur-xl">
+        <h2 class="mb-4 text-xl font-semibold">Your location</h2>
+        <LocationForm initialLocation={location} client:load />
+      </div>
+
       <a
         href="/dashboard/pocs"
         data-testid="pocs-link"
