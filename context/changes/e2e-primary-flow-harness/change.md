@@ -1,7 +1,7 @@
 ---
 change_id: e2e-primary-flow-harness
 title: E2e primary flow harness
-status: implementing
+status: implemented
 created: 2026-08-15
 updated: 2026-08-15
 archived_at: null

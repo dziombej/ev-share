@@ -314,8 +314,8 @@ N/A — no existing data or systems to migrate; this is new tooling only.
 
 #### Automated
 
-- [ ] 4.1 The `e2e-test` job passes on a pushed branch/PR
+- [x] 4.1 The `e2e-test` job passes on a pushed branch/PR — 84a1621
 
 #### Manual
 
-- [ ] 4.2 Reviewed the Actions run's summary and (if failed) the uploaded `playwright-report` artifact
+- [x] 4.2 Reviewed the Actions run's summary and (if failed) the uploaded `playwright-report` artifact — 84a1621
