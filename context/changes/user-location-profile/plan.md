@@ -230,15 +230,15 @@ Purely additive: a new table and two new migrations. No existing data is touched
 
 #### Automated
 
-- [ ] 1.1 Migrations apply cleanly: `npx supabase db reset`
-- [ ] 1.2 Type regeneration succeeds and includes a `profiles` table
-- [ ] 1.3 Lint passes
-- [ ] 1.4 Build passes
+- [x] 1.1 Migrations apply cleanly: `npx supabase db reset`
+- [x] 1.2 Type regeneration succeeds and includes a `profiles` table
+- [x] 1.3 Lint passes
+- [x] 1.4 Build passes
 
 #### Manual
 
-- [ ] 1.5 RLS enforced: a second user's session cannot select the first user's row
-- [ ] 1.6 `updated_at` changes on update (trigger fires)
+- [ ] 1.5 RLS enforced: a second user's session cannot select the first user's row (superseded — see change.md Notes: RLS disabled project-wide per explicit user decision)
+- [x] 1.6 `updated_at` changes on update (trigger fires)
 
 ### Phase 2: API endpoint
 

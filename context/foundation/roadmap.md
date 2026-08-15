@@ -39,7 +39,7 @@ energy given and received across many households.
 | ID   | Change ID                          | Outcome (user can …)                                                         | Prerequisites | PRD refs                   | Status   |
 | ---- | ----------------------------------- | ----------------------------------------------------------------------------- | -------------- | --------------------------- | -------- |
 | F-01 | `e2e-primary-flow-harness`          | (foundation) an automated e2e test can verify the primary flow                | —              | —                            | in-progress |
-| S-04 | `user-location-profile`             | user can set/update their own location                                       | —              | FR-003                      | planning |
+| S-04 | `user-location-profile`             | user can set/update their own location                                       | —              | FR-003                      | in-progress |
 | S-01 | `poc-registration-and-listing`      | user can register a POC, toggle its availability, and see all POCs           | —              | FR-004, FR-005, FR-006, US-01 | in-progress |
 | S-02 | `log-session-and-balance-ledger`    | user can log a charging session and see both balances update, with history   | S-01, F-01     | FR-007, FR-008, FR-009, FR-010, US-01 | in-progress |
 | S-03 | `unified-landing-page`              | user's landing page shows balance, history, and available POCs together      | S-01, S-02     | FR-011, US-01                | planning |
@@ -83,7 +83,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Smallest slice in the roadmap and has no dependents in this MVP scope (distance-sorting, the FR that would consume it, is Parked) — sequenced early only because it's free to get out of the way, not because anything downstream is blocked on it.
-- **Status:** planning
+- **Status:** in-progress
 
 ### S-01: User registers and manages a POC
 
