@@ -43,6 +43,8 @@ jobs:
         env:
           E2E_USERNAME: e2e-test@example.com
           E2E_PASSWORD: Str0ngTestPassw0rd!
+          E2E_SEEKER_USERNAME: e2e-seeker@example.com
+          E2E_SEEKER_PASSWORD: Str0ngTestPassw0rd!
           SUPABASE_URL: ${{ env.API_URL }}
           SUPABASE_KEY: ${{ env.PUBLISHABLE_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ env.SECRET_KEY }}
