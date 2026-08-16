@@ -440,29 +440,29 @@ Three net-new, additive migrations (a new column + backfill, a new grant, a new 
 
 #### Automated
 
-- [x] 3.1 Lint passes: `npm run lint`
-- [x] 3.2 Build passes: `npm run build`
-- [x] 3.3 Type-check passes: `npx astro check`
+- [x] 3.1 Lint passes: `npm run lint` — 296794c
+- [x] 3.2 Build passes: `npm run build` — 296794c
+- [x] 3.3 Type-check passes: `npx astro check` — 296794c
 
 #### Manual
 
-- [x] 3.4 Non-owned POCs on `/` show owner email (signed-in) and a read-only badge, no switch
-- [x] 3.5 Anonymous visitors to `/` see no email anywhere, including page source
-- [x] 3.6 `/dashboard/pocs` shows only the signed-in user's own POCs with working power-edit and remove
-- [x] 3.7 Removing a POC with sessions is rejected with a clear message; without sessions, it disappears
+- [x] 3.4 Non-owned POCs on `/` show owner email (signed-in) and a read-only badge, no switch — 296794c
+- [x] 3.5 Anonymous visitors to `/` see no email anywhere, including page source — 296794c
+- [x] 3.6 `/dashboard/pocs` shows only the signed-in user's own POCs with working power-edit and remove — 296794c
+- [x] 3.7 Removing a POC with sessions is rejected with a clear message; without sessions, it disappears — 296794c
 
 ### Phase 4: Session-Logged Confirmation
 
 #### Automated
 
-- [ ] 4.1 Lint passes: `npm run lint`
-- [ ] 4.2 Build passes: `npm run build`
-- [ ] 4.3 Type-check passes: `npx astro check`
+- [x] 4.1 Lint passes: `npm run lint`
+- [x] 4.2 Build passes: `npm run build`
+- [x] 4.3 Type-check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 4.4 Successful session log shows the confirmation banner
-- [ ] 4.5 Visiting the page directly (no query param) shows neither banner
+- [x] 4.4 Successful session log shows the confirmation banner
+- [x] 4.5 Visiting the page directly (no query param) shows neither banner
 
 ### Phase 5: Seeker Combobox
 

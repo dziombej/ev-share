@@ -11,6 +11,7 @@ const { user } = Astro.locals;
 const currentUserId = user?.id ?? "";
 
 const error = Astro.url.searchParams.get("error");
+const success = Astro.url.searchParams.get("success") === "1";
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 const pocs = supabase ? await listPocs(supabase) : [];
 const ownPocs = pocs.filter((poc) => poc.ownerId === currentUserId);
@@ -24,7 +25,7 @@ const ownPocs = pocs.filter((poc) => poc.ownerId === currentUserId);
         <h1 class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
           Log a charging session
         </h1>
-        <LogSessionForm ownPocs={ownPocs} serverError={error} client:load />
+        <LogSessionForm ownPocs={ownPocs} serverError={error} success={success} client:load />
       </div>
     </div>
   </div>

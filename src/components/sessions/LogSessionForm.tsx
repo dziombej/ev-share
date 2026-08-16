@@ -10,6 +10,7 @@ import type { Poc } from "@/types";
 interface Props {
   ownPocs: Poc[];
   serverError?: string | null;
+  success?: boolean;
 }
 
 interface FieldErrors {
@@ -20,7 +21,7 @@ interface FieldErrors {
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function LogSessionForm({ ownPocs, serverError }: Props) {
+export default function LogSessionForm({ ownPocs, serverError, success }: Props) {
   const [pocId, setPocId] = useState("");
   const [seekerEmail, setSeekerEmail] = useState("");
   const [kwh, setKwh] = useState("");
@@ -70,6 +71,15 @@ export default function LogSessionForm({ ownPocs, serverError }: Props) {
 
   return (
     <form method="POST" action="/api/sessions/create" className="space-y-4" onSubmit={handleSubmit} noValidate>
+      {success ? (
+        <p
+          className="rounded-lg border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-sm text-emerald-300"
+          data-testid="session-success"
+        >
+          Session logged successfully.
+        </p>
+      ) : null}
+
       <div>
         <Label htmlFor="pocId" className="mb-1 text-blue-100/80">
           Your charging point
