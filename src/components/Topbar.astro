@@ -1,49 +1,67 @@
 ---
+import { Home, LayoutDashboard, BatteryCharging, Zap, LogIn, UserPlus, LogOut } from "lucide-react";
+
 const { user } = Astro.locals;
+const pathname = Astro.url.pathname;
+
+function linkClasses(href: string) {
+  const active = pathname === href;
+  return [
+    "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+    active ? "bg-purple-500/20 text-purple-100" : "text-purple-300 hover:bg-white/10 hover:text-purple-100",
+  ];
+}
 ---
 
 <div
-  class="mb-4 flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80"
+  class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80 backdrop-blur-xl"
 >
   {
     user ? (
       <>
-        <span class="text-blue-100/70">{user.email}</span>
-        <div class="flex items-center gap-3">
-          <a href="/" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+        <span class="truncate text-blue-100/70">{user.email}</span>
+        <nav class="flex flex-wrap items-center gap-1">
+          <a href="/" class:list={linkClasses("/")}>
+            <Home className="size-4" />
             Home
           </a>
-          <a href="/dashboard" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+          <a href="/dashboard" class:list={linkClasses("/dashboard")}>
+            <LayoutDashboard className="size-4" />
             Dashboard
           </a>
-          <a href="/dashboard/pocs" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+          <a href="/dashboard/pocs" class:list={linkClasses("/dashboard/pocs")}>
+            <BatteryCharging className="size-4" />
             Charging points
           </a>
-          <a href="/dashboard/sessions" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+          <a href="/dashboard/sessions" class:list={linkClasses("/dashboard/sessions")}>
+            <Zap className="size-4" />
             Log a session
           </a>
           <form method="POST" action="/api/auth/signout">
             <button
               type="submit"
               data-testid="signout-button"
-              class="text-purple-300 transition-colors hover:text-purple-100 hover:underline"
+              class="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-purple-300 transition-colors hover:bg-white/10 hover:text-purple-100"
             >
+              <LogOut className="size-4" />
               Sign out
             </button>
           </form>
-        </div>
+        </nav>
       </>
     ) : (
       <>
         <span class="text-blue-100/70">Not signed in</span>
-        <div class="flex gap-3">
-          <a href="/auth/signin" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+        <nav class="flex flex-wrap gap-1">
+          <a href="/auth/signin" class:list={linkClasses("/auth/signin")}>
+            <LogIn className="size-4" />
             Sign in
           </a>
-          <a href="/auth/signup" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
+          <a href="/auth/signup" class:list={linkClasses("/auth/signup")}>
+            <UserPlus className="size-4" />
             Sign up
           </a>
-        </div>
+        </nav>
       </>
     )
   }
