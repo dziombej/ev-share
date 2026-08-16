@@ -419,8 +419,8 @@ Three net-new, additive migrations (a new column + backfill, a new grant, a new 
 
 #### Manual
 
-- [ ] 1.5 Every existing `pocs` row has a non-null `owner_email` matching its owner's `auth.users.email`
-- [ ] 1.6 `authenticated` role can issue a `delete` against `pocs`
+- [x] 1.5 Every existing `pocs` row has a non-null `owner_email` matching its owner's `auth.users.email` — b5835ad
+- [x] 1.6 `authenticated` role can issue a `delete` against `pocs` — b5835ad
 
 ### Phase 2: API Routes — POC Management
 
@@ -468,14 +468,14 @@ Three net-new, additive migrations (a new column + backfill, a new grant, a new 
 
 #### Automated
 
-- [x] 5.1 Migration applies cleanly: `npx supabase migration up`
-- [x] 5.2 Lint passes: `npm run lint`
-- [x] 5.3 Build passes: `npm run build`
-- [x] 5.4 Type-check passes: `npx astro check`
+- [x] 5.1 Migration applies cleanly: `npx supabase migration up` — 9f6bd29
+- [x] 5.2 Lint passes: `npm run lint` — 9f6bd29
+- [x] 5.3 Build passes: `npm run build` — 9f6bd29
+- [x] 5.4 Type-check passes: `npx astro check` — 9f6bd29
 
 #### Manual
 
-- [x] 5.5 3+ character search returns up to 5 matches excluding the host's own email
-- [x] 5.6 No-match search shows "No matching user" and disables submit
-- [x] 5.7 Selecting a suggestion locks the id; submit creates a session with the correct seeker
-- [x] 5.8 Editing text after selection clears the lock and disables submit again
+- [x] 5.5 3+ character search returns up to 5 matches excluding the host's own email — 9f6bd29
+- [x] 5.6 No-match search shows "No matching user" and disables submit — 9f6bd29
+- [x] 5.7 Selecting a suggestion locks the id; submit creates a session with the correct seeker — 9f6bd29
+- [x] 5.8 Editing text after selection clears the lock and disables submit again — 9f6bd29
