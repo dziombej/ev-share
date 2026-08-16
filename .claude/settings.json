@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "OUTPUT=$(npm run lint 2>&1); STATUS=$?; if [ $STATUS -ne 0 ]; then echo \"$OUTPUT\"; exit 2; fi",
+            "asyncRewake": true,
+            "rewakeSummary": "Lint failed",
+            "rewakeMessage": "npm run lint reported errors after your last edit:\n\n",
+            "timeout": 60,
+            "statusMessage": "Linting..."
+          }
+        ]
+      }
+    ]
+  }
+}
