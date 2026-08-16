@@ -5,6 +5,7 @@ import { logSession } from "@/lib/sessions";
 
 const logSessionSchema = z.object({
   pocId: z.uuid(),
+  seekerId: z.uuid(),
   seekerEmail: z.email(),
   kwh: z.coerce.number().positive().max(500),
 });
@@ -22,6 +23,7 @@ export const POST: APIRoute = async (context) => {
   const form = await context.request.formData();
   const parsed = logSessionSchema.safeParse({
     pocId: form.get("pocId"),
+    seekerId: form.get("seekerId"),
     seekerEmail: form.get("seekerEmail"),
     kwh: form.get("kwh"),
   });

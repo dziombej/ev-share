@@ -30,8 +30,14 @@ export interface ChargingSession {
 
 export interface LogSessionInput {
   pocId: string;
+  seekerId: string;
   seekerEmail: string;
   kwh: number;
+}
+
+export interface UserSearchResult {
+  id: string;
+  email: string;
 }
 
 export interface UserLocation {

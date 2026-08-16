@@ -28,16 +28,6 @@ function mapRow(row: ChargingSessionRowWithPoc): ChargingSession {
   };
 }
 
-export async function resolveUserIdByEmail(supabase: SupabaseDb, email: string): Promise<string | null> {
-  const { data, error } = await supabase.rpc("get_user_id_by_email", { p_email: email });
-
-  if (error) {
-    throw error;
-  }
-
-  return data;
-}
-
 export async function logSession(
   supabase: SupabaseDb,
   hostId: string,
@@ -58,13 +48,7 @@ export async function logSession(
     throw new Error("You can only log sessions against your own charging point");
   }
 
-  const seekerId = await resolveUserIdByEmail(supabase, input.seekerEmail);
-
-  if (!seekerId) {
-    throw new Error("No registered user found with that email");
-  }
-
-  if (seekerId === hostId) {
+  if (input.seekerId === hostId) {
     throw new Error("You cannot log a session for yourself");
   }
 
@@ -74,7 +58,7 @@ export async function logSession(
       poc_id: input.pocId,
       host_id: hostId,
       host_email: hostEmail,
-      seeker_id: seekerId,
+      seeker_id: input.seekerId,
       seeker_email: input.seekerEmail,
       kwh: input.kwh,
     })

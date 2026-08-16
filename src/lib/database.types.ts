@@ -138,6 +138,13 @@ export type Database = {
     }
     Functions: {
       get_user_id_by_email: { Args: { p_email: string }; Returns: string }
+      search_users_by_email_prefix: {
+        Args: { p_limit?: number; p_prefix: string }
+        Returns: {
+          email: string
+          id: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

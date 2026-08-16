@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Zap } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { ServerError } from "@/components/auth/ServerError";
-import type { Poc } from "@/types";
+import type { Poc, UserSearchResult } from "@/types";
 
 interface Props {
   ownPocs: Poc[];
@@ -19,13 +21,51 @@ interface FieldErrors {
   kwh?: string;
 }
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MIN_QUERY_LENGTH = 3;
+const SEARCH_DEBOUNCE_MS = 300;
 
 export default function LogSessionForm({ ownPocs, serverError, success }: Props) {
   const [pocId, setPocId] = useState("");
-  const [seekerEmail, setSeekerEmail] = useState("");
   const [kwh, setKwh] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
+
+  const [seekerQuery, setSeekerQuery] = useState("");
+  const [seekerId, setSeekerId] = useState("");
+  const [lockedSeekerEmail, setLockedSeekerEmail] = useState("");
+  const [seekerResults, setSeekerResults] = useState<UserSearchResult[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const searchSeq = useRef(0);
+
+  useEffect(() => {
+    const query = seekerQuery.trim();
+    if (query.length < MIN_QUERY_LENGTH) {
+      return;
+    }
+
+    const seq = ++searchSeq.current;
+
+    const timeout = setTimeout(() => {
+      void fetch(`/api/users/search?q=${encodeURIComponent(query)}`)
+        .then((res) => res.json() as Promise<{ users?: UserSearchResult[] }>)
+        .then((body) => {
+          if (seq !== searchSeq.current) return;
+          setSeekerResults(body.users ?? []);
+        })
+        .catch(() => {
+          if (seq !== searchSeq.current) return;
+          setSeekerResults([]);
+        })
+        .finally(() => {
+          if (seq !== searchSeq.current) return;
+          setSearching(false);
+        });
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [seekerQuery]);
 
   if (ownPocs.length === 0) {
     return (
@@ -47,8 +87,8 @@ export default function LogSessionForm({ ownPocs, serverError, success }: Props)
       next.pocId = "Select one of your charging points";
     }
 
-    if (!seekerEmail.trim() || !EMAIL_PATTERN.test(seekerEmail)) {
-      next.seekerEmail = "Enter a valid email address";
+    if (!seekerId) {
+      next.seekerEmail = "Select a seeker from the list";
     }
 
     if (!kwh.trim() || Number.isNaN(amount) || amount <= 0 || amount > 500) {
@@ -63,11 +103,37 @@ export default function LogSessionForm({ ownPocs, serverError, success }: Props)
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
   }
 
+  function handleSeekerQueryChange(value: string) {
+    setSeekerQuery(value);
+    setSeekerId("");
+    setLockedSeekerEmail("");
+    setPopoverOpen(true);
+    clearError("seekerEmail");
+
+    if (value.trim().length < MIN_QUERY_LENGTH) {
+      searchSeq.current += 1;
+      setSeekerResults([]);
+      setSearching(false);
+    } else {
+      setSearching(true);
+    }
+  }
+
+  function handleSeekerSelect(user: UserSearchResult) {
+    setSeekerId(user.id);
+    setLockedSeekerEmail(user.email);
+    setSeekerQuery(user.email);
+    setPopoverOpen(false);
+    clearError("seekerEmail");
+  }
+
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     if (!validate()) {
       e.preventDefault();
     }
   }
+
+  const showEmptyState = !searching && seekerQuery.trim().length >= MIN_QUERY_LENGTH && seekerResults.length === 0;
 
   return (
     <form method="POST" action="/api/sessions/create" className="space-y-4" onSubmit={handleSubmit} noValidate>
@@ -110,19 +176,59 @@ export default function LogSessionForm({ ownPocs, serverError, success }: Props)
         <Label htmlFor="seekerEmail" className="mb-1 text-blue-100/80">
           Seeker email
         </Label>
-        <Input
-          id="seekerEmail"
-          name="seekerEmail"
-          data-testid="seekerEmail"
-          type="email"
-          value={seekerEmail}
-          onChange={(e) => {
-            setSeekerEmail(e.target.value);
-            clearError("seekerEmail");
-          }}
-          placeholder="driver@example.com"
-          aria-invalid={Boolean(errors.seekerEmail)}
-        />
+        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+          <Command shouldFilter={false} className="overflow-visible bg-transparent text-white">
+            <PopoverAnchor asChild>
+              <div>
+                <CommandInput
+                  id="seekerEmail"
+                  data-testid="seekerEmail"
+                  value={seekerQuery}
+                  onValueChange={handleSeekerQueryChange}
+                  onFocus={() => {
+                    setPopoverOpen(true);
+                  }}
+                  placeholder="driver@example.com"
+                  wrapperClassName="rounded-md border border-white/20"
+                />
+              </div>
+            </PopoverAnchor>
+            <PopoverContent
+              align="start"
+              sideOffset={4}
+              onOpenAutoFocus={(e) => {
+                e.preventDefault();
+              }}
+              className="w-[--radix-popover-trigger-width] border-white/10 bg-slate-950 p-0 text-white shadow-xl"
+            >
+              <CommandList data-testid="seeker-results">
+                {searching ? <CommandEmpty className="text-blue-100/60">Searching...</CommandEmpty> : null}
+                {showEmptyState ? (
+                  <CommandEmpty className="text-blue-100/60" data-testid="seeker-no-match">
+                    No matching user
+                  </CommandEmpty>
+                ) : null}
+                <CommandGroup>
+                  {seekerResults.map((user) => (
+                    <CommandItem
+                      key={user.id}
+                      value={user.id}
+                      data-testid={`seeker-option-${user.id}`}
+                      onSelect={() => {
+                        handleSeekerSelect(user);
+                      }}
+                      className="text-white data-[selected=true]:bg-white/10 data-[selected=true]:text-white"
+                    >
+                      {user.email}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </PopoverContent>
+          </Command>
+        </Popover>
+        <input type="hidden" name="seekerId" value={seekerId} />
+        <input type="hidden" name="seekerEmail" value={lockedSeekerEmail} />
         {errors.seekerEmail ? <p className="mt-1 text-xs text-red-300">{errors.seekerEmail}</p> : null}
       </div>
 
@@ -149,7 +255,7 @@ export default function LogSessionForm({ ownPocs, serverError, success }: Props)
 
       <ServerError message={serverError} />
 
-      <SubmitButton pendingText="Logging session..." icon={<Zap className="size-4" />}>
+      <SubmitButton pendingText="Logging session..." icon={<Zap className="size-4" />} disabled={!seekerId}>
         Log session
       </SubmitButton>
     </form>

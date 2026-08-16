@@ -455,27 +455,27 @@ Three net-new, additive migrations (a new column + backfill, a new grant, a new 
 
 #### Automated
 
-- [x] 4.1 Lint passes: `npm run lint`
-- [x] 4.2 Build passes: `npm run build`
-- [x] 4.3 Type-check passes: `npx astro check`
+- [x] 4.1 Lint passes: `npm run lint` — a4257e6
+- [x] 4.2 Build passes: `npm run build` — a4257e6
+- [x] 4.3 Type-check passes: `npx astro check` — a4257e6
 
 #### Manual
 
-- [x] 4.4 Successful session log shows the confirmation banner
-- [x] 4.5 Visiting the page directly (no query param) shows neither banner
+- [x] 4.4 Successful session log shows the confirmation banner — a4257e6
+- [x] 4.5 Visiting the page directly (no query param) shows neither banner — a4257e6
 
 ### Phase 5: Seeker Combobox
 
 #### Automated
 
-- [ ] 5.1 Migration applies cleanly: `npx supabase migration up`
-- [ ] 5.2 Lint passes: `npm run lint`
-- [ ] 5.3 Build passes: `npm run build`
-- [ ] 5.4 Type-check passes: `npx astro check`
+- [x] 5.1 Migration applies cleanly: `npx supabase migration up`
+- [x] 5.2 Lint passes: `npm run lint`
+- [x] 5.3 Build passes: `npm run build`
+- [x] 5.4 Type-check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 5.5 3+ character search returns up to 5 matches excluding the host's own email
-- [ ] 5.6 No-match search shows "No matching user" and disables submit
-- [ ] 5.7 Selecting a suggestion locks the id; submit creates a session with the correct seeker
-- [ ] 5.8 Editing text after selection clears the lock and disables submit again
+- [x] 5.5 3+ character search returns up to 5 matches excluding the host's own email
+- [x] 5.6 No-match search shows "No matching user" and disables submit
+- [x] 5.7 Selecting a suggestion locks the id; submit creates a session with the correct seeker
+- [x] 5.8 Editing text after selection clears the lock and disables submit again
