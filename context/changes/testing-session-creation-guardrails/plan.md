@@ -266,8 +266,8 @@ None — no data model or schema changes.
 
 #### Automated
 
-- [x] 4.1 `npm run format` reports no changes needed
+- [x] 4.1 `npm run format` reports no changes needed — 31b0dbb
 
 #### Manual
 
-- [x] 4.2 §6.1/§6.4 re-read for actionability by a fresh contributor
+- [x] 4.2 §6.1/§6.4 re-read for actionability by a fresh contributor — 31b0dbb

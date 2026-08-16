@@ -1,7 +1,7 @@
 ---
 change_id: testing-session-creation-guardrails
 title: Session-creation guardrails — kWh validation and ownership checks
-status: implementing
+status: implemented
 created: 2026-08-16
 updated: 2026-08-16
 archived_at: null
