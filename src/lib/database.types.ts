@@ -82,6 +82,7 @@ export type Database = {
           is_available: boolean
           latitude: number
           longitude: number
+          owner_email: string
           owner_id: string
           power_rating_kw: number
           updated_at: string
@@ -92,6 +93,7 @@ export type Database = {
           is_available?: boolean
           latitude: number
           longitude: number
+          owner_email: string
           owner_id: string
           power_rating_kw: number
           updated_at?: string
@@ -102,6 +104,7 @@ export type Database = {
           is_available?: boolean
           latitude?: number
           longitude?: number
+          owner_email?: string
           owner_id?: string
           power_rating_kw?: number
           updated_at?: string
@@ -270,3 +273,4 @@ export const Constants = {
     Enums: {},
   },
 } as const
+

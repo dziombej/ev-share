@@ -14,6 +14,11 @@ export const POST: APIRoute = async (context) => {
     return context.redirect("/auth/signin");
   }
 
+  const ownerEmail = context.locals.user.email;
+  if (!ownerEmail) {
+    return context.redirect(`/dashboard/pocs?error=${encodeURIComponent("Your account is missing an email")}`);
+  }
+
   const form = await context.request.formData();
   const parsed = createPocSchema.safeParse({
     latitude: form.get("latitude"),
@@ -32,7 +37,7 @@ export const POST: APIRoute = async (context) => {
   }
 
   try {
-    await createPoc(supabase, context.locals.user.id, parsed.data);
+    await createPoc(supabase, context.locals.user.id, ownerEmail, parsed.data);
   } catch (error) {
     console.error("Failed to create POC:", error);
     return context.redirect(`/dashboard/pocs?error=${encodeURIComponent("Failed to register POC")}`);

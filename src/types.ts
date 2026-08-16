@@ -1,6 +1,7 @@
 export interface Poc {
   id: string;
   ownerId: string;
+  ownerEmail: string;
   latitude: number;
   longitude: number;
   powerRatingKw: number;
