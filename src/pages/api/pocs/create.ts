@@ -3,6 +3,8 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase";
 import { createPoc } from "@/lib/pocs";
 
+export const prerender = false;
+
 const createPocSchema = z.object({
   latitude: z.string().trim().min(1, "Latitude is required").transform(Number).pipe(z.number().min(-90).max(90)),
   longitude: z.string().trim().min(1, "Longitude is required").transform(Number).pipe(z.number().min(-180).max(180)),

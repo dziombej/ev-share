@@ -3,6 +3,8 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase";
 import { setPocPower } from "@/lib/pocs";
 
+export const prerender = false;
+
 const powerSchema = z.object({
   powerRatingKw: z.coerce.number().positive().max(350),
 });

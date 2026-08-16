@@ -3,6 +3,8 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase";
 import { logSession } from "@/lib/sessions";
 
+export const prerender = false;
+
 const logSessionSchema = z.object({
   pocId: z.uuid(),
   seekerId: z.uuid(),

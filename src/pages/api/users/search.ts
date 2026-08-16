@@ -2,6 +2,8 @@ import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
 import { searchUsersByEmailPrefix } from "@/lib/users";
 
+export const prerender = false;
+
 const MIN_QUERY_LENGTH = 3;
 
 export const GET: APIRoute = async (context) => {
