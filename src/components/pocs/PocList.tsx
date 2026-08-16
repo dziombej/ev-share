@@ -62,18 +62,32 @@ export default function PocList({ pocs: initialPocs, currentUserId }: Props) {
                 <p className="text-sm text-blue-100/60">
                   {poc.latitude}, {poc.longitude}
                 </p>
+                {!isOwner && poc.ownerEmail ? (
+                  <p className="text-sm text-blue-100/60" data-testid={`poc-${poc.id}-owner-email`}>
+                    {poc.ownerEmail}
+                  </p>
+                ) : null}
                 {errors[poc.id] ? <p className="mt-1 text-xs text-red-300">{errors[poc.id]}</p> : null}
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-blue-100/80">{poc.isAvailable ? "Available" : "Unavailable"}</span>
-                <Switch
-                  checked={poc.isAvailable}
-                  disabled={!isOwner || pendingIds.has(poc.id)}
-                  data-testid={`poc-${poc.id}-toggle`}
-                  onCheckedChange={(checked) => {
-                    if (isOwner) void handleToggle(poc, checked);
-                  }}
-                />
+                {isOwner ? (
+                  <>
+                    <span className="text-sm text-blue-100/80">{poc.isAvailable ? "Available" : "Unavailable"}</span>
+                    <Switch
+                      checked={poc.isAvailable}
+                      disabled={pendingIds.has(poc.id)}
+                      data-testid={`poc-${poc.id}-toggle`}
+                      onCheckedChange={(checked) => void handleToggle(poc, checked)}
+                    />
+                  </>
+                ) : (
+                  <span
+                    className="rounded-full bg-white/10 px-2 py-1 text-xs text-blue-100/80"
+                    data-testid={`poc-${poc.id}-status`}
+                  >
+                    {poc.isAvailable ? "Available" : "Busy"}
+                  </span>
+                )}
               </div>
             </CardContent>
           </Card>

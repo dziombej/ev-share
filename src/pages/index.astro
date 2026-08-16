@@ -10,7 +10,11 @@ import { listSessionsForUser, computeBalance } from "@/lib/sessions";
 
 const { user } = Astro.locals;
 const supabase = createClient(Astro.request.headers, Astro.cookies);
-const pocs = supabase ? await listPocs(supabase) : [];
+const allPocs = supabase ? await listPocs(supabase) : [];
+// Owner email is signed-in-viewers-only. Blanking it here (not just at render time) matters
+// because PocList is a client:load island — its props are serialized into the page's
+// hydration payload regardless of what the component chooses to display.
+const pocs = user ? allPocs : allPocs.map((poc) => ({ ...poc, ownerEmail: "" }));
 
 const sessions = supabase && user ? await listSessionsForUser(supabase, user.id) : [];
 const balance = user ? computeBalance(sessions, user.id) : 0;

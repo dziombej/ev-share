@@ -426,30 +426,30 @@ Three net-new, additive migrations (a new column + backfill, a new grant, a new 
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 Type-check passes: `npx astro check`
+- [x] 2.1 Lint passes: `npm run lint` — 52105ab
+- [x] 2.2 Build passes: `npm run build` — 52105ab
+- [x] 2.3 Type-check passes: `npx astro check` — 52105ab
 
 #### Manual
 
-- [x] 2.4 New POCs are created with `owner_email` already populated
-- [x] 2.5 `PATCH /api/pocs/:id/power` updates as owner, 403s as non-owner
-- [x] 2.6 `DELETE /api/pocs/:id` succeeds with no history, 409s with history, 403s as non-owner
+- [x] 2.4 New POCs are created with `owner_email` already populated — 52105ab
+- [x] 2.5 `PATCH /api/pocs/:id/power` updates as owner, 403s as non-owner — 52105ab
+- [x] 2.6 `DELETE /api/pocs/:id` succeeds with no history, 409s with history, 403s as non-owner — 52105ab
 
 ### Phase 3: My-POCs Management UI + Public List Read-Only Treatment
 
 #### Automated
 
-- [ ] 3.1 Lint passes: `npm run lint`
-- [ ] 3.2 Build passes: `npm run build`
-- [ ] 3.3 Type-check passes: `npx astro check`
+- [x] 3.1 Lint passes: `npm run lint`
+- [x] 3.2 Build passes: `npm run build`
+- [x] 3.3 Type-check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 3.4 Non-owned POCs on `/` show owner email (signed-in) and a read-only badge, no switch
-- [ ] 3.5 Anonymous visitors to `/` see no email anywhere, including page source
-- [ ] 3.6 `/dashboard/pocs` shows only the signed-in user's own POCs with working power-edit and remove
-- [ ] 3.7 Removing a POC with sessions is rejected with a clear message; without sessions, it disappears
+- [x] 3.4 Non-owned POCs on `/` show owner email (signed-in) and a read-only badge, no switch
+- [x] 3.5 Anonymous visitors to `/` see no email anywhere, including page source
+- [x] 3.6 `/dashboard/pocs` shows only the signed-in user's own POCs with working power-edit and remove
+- [x] 3.7 Removing a POC with sessions is rejected with a clear message; without sessions, it disappears
 
 ### Phase 4: Session-Logged Confirmation
 

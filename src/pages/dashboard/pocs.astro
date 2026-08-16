@@ -2,9 +2,9 @@
 import Layout from "@/layouts/Layout.astro";
 import Topbar from "@/components/Topbar.astro";
 import PocForm from "@/components/pocs/PocForm";
-import PocList from "@/components/pocs/PocList";
+import MyPocList from "@/components/pocs/MyPocList";
 import { createClient } from "@/lib/supabase";
-import { listPocs } from "@/lib/pocs";
+import { listPocsForOwner } from "@/lib/pocs";
 
 const { user } = Astro.locals;
 // This page is under /dashboard, already gated by middleware — user is only ever
@@ -13,7 +13,7 @@ const currentUserId = user?.id ?? "";
 
 const error = Astro.url.searchParams.get("error");
 const supabase = createClient(Astro.request.headers, Astro.cookies);
-const pocs = supabase ? await listPocs(supabase) : [];
+const pocs = supabase ? await listPocsForOwner(supabase, currentUserId) : [];
 ---
 
 <Layout title="Charging points">
@@ -28,8 +28,8 @@ const pocs = supabase ? await listPocs(supabase) : [];
       </div>
 
       <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
-        <h2 class="mb-4 text-xl font-semibold">All charging points</h2>
-        <PocList pocs={pocs} currentUserId={currentUserId} client:load />
+        <h2 class="mb-4 text-xl font-semibold">My charging points</h2>
+        <MyPocList pocs={pocs} client:load />
       </div>
     </div>
   </div>
