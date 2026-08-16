@@ -1,16 +1,9 @@
 import type { APIRoute } from "astro";
-import { z } from "zod";
 import { createClient } from "@/lib/supabase";
 import { logSession } from "@/lib/sessions";
+import { logSessionSchema } from "@/lib/validation/session";
 
 export const prerender = false;
-
-const logSessionSchema = z.object({
-  pocId: z.uuid(),
-  seekerId: z.uuid(),
-  seekerEmail: z.email(),
-  kwh: z.coerce.number().positive().max(500),
-});
 
 export const POST: APIRoute = async (context) => {
   if (!context.locals.user) {

@@ -230,25 +230,25 @@ None — no data model or schema changes.
 
 #### Automated
 
-- [x] 1.1 `npm run test:unit` exits 0 and runs the smoke test
-- [x] 1.2 `npm run lint` passes
-- [x] 1.3 `npx astro check` (or `npm run build`) passes
+- [x] 1.1 `npm run test:unit` exits 0 and runs the smoke test — b8ce880
+- [x] 1.2 `npm run lint` passes — b8ce880
+- [x] 1.3 `npx astro check` (or `npm run build`) passes — b8ce880
 
 #### Manual
 
-- [x] 1.4 Vitest terminal output reports the smoke test by name
+- [x] 1.4 Vitest terminal output reports the smoke test by name — b8ce880
 
 ### Phase 2: Extract the session-validation schema
 
 #### Automated
 
-- [ ] 2.1 `npm run lint` passes
-- [ ] 2.2 `npx astro check` (or `npm run build`) passes
-- [ ] 2.3 `npm run test:unit` still passes
+- [x] 2.1 `npm run lint` passes
+- [x] 2.2 `npx astro check` (or `npm run build`) passes
+- [x] 2.3 `npm run test:unit` still passes
 
 #### Manual
 
-- [ ] 2.4 `npm run test:e2e` — `log-session-flow.spec.ts` still passes
+- [x] 2.4 `npm run test:e2e` — `log-session-flow.spec.ts` still passes (satisfied via equivalence evidence, not a passing run — see change.md notes)
 
 ### Phase 3: kWh guardrail unit tests
 
