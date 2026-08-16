@@ -412,10 +412,10 @@ Three net-new, additive migrations (a new column + backfill, a new grant, a new 
 
 #### Automated
 
-- [x] 1.1 Migrations apply cleanly against local Supabase: `npx supabase migration up`
-- [x] 1.2 Lint passes: `npm run lint`
-- [x] 1.3 Build passes: `npm run build`
-- [x] 1.4 Type-check passes: `npx astro check`
+- [x] 1.1 Migrations apply cleanly against local Supabase: `npx supabase migration up` — b5835ad
+- [x] 1.2 Lint passes: `npm run lint` — b5835ad
+- [x] 1.3 Build passes: `npm run build` — b5835ad
+- [x] 1.4 Type-check passes: `npx astro check` — b5835ad
 
 #### Manual
 
@@ -426,15 +426,15 @@ Three net-new, additive migrations (a new column + backfill, a new grant, a new 
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 Type-check passes: `npx astro check`
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 Type-check passes: `npx astro check`
 
 #### Manual
 
-- [ ] 2.4 New POCs are created with `owner_email` already populated
-- [ ] 2.5 `PATCH /api/pocs/:id/power` updates as owner, 403s as non-owner
-- [ ] 2.6 `DELETE /api/pocs/:id` succeeds with no history, 409s with history, 403s as non-owner
+- [x] 2.4 New POCs are created with `owner_email` already populated
+- [x] 2.5 `PATCH /api/pocs/:id/power` updates as owner, 403s as non-owner
+- [x] 2.6 `DELETE /api/pocs/:id` succeeds with no history, 409s with history, 403s as non-owner
 
 ### Phase 3: My-POCs Management UI + Public List Read-Only Treatment
 
