@@ -1,5 +1,5 @@
 import { test as setup } from "@playwright/test";
-import { fillStable } from "./utils";
+import { fillStable, submitUntilNavigated } from "./utils";
 
 const authFile = "playwright/.auth/seeker.json";
 
@@ -12,12 +12,16 @@ setup("authenticate seeker", async ({ page }) => {
   }
 
   await page.goto("/auth/signin");
-  await fillStable(page.getByTestId("email"), email);
-  await fillStable(page.getByTestId("password"), password);
-  await page.getByTestId("submit-button").click();
-
   // ev-share's sign-in redirects to "/" on success, not "/dashboard".
-  await page.waitForURL("/");
+  await submitUntilNavigated(
+    page,
+    async () => {
+      await fillStable(page.getByTestId("email"), email);
+      await fillStable(page.getByTestId("password"), password);
+    },
+    page.getByTestId("submit-button"),
+    "/",
+  );
 
   await page.context().storageState({ path: authFile });
 });
