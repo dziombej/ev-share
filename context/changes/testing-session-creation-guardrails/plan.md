@@ -21,7 +21,7 @@ The validation schema that needs testing (`logSessionSchema`, `src/pages/api/ses
 
 ### Key Discoveries:
 
-- `src/pages/api/sessions/create.ts:25-36` — validation runs *before* `createClient`/`logSession` are called, so the rejection path never touches Supabase — confirmed no DB stub is needed for these tests.
+- `src/pages/api/sessions/create.ts:25-36` — validation runs _before_ `createClient`/`logSession` are called, so the rejection path never touches Supabase — confirmed no DB stub is needed for these tests.
 - `node_modules/zod/v4/core/schemas.js:487-516` — the `zod@4.4.3` actually installed in this repo rejects `Infinity`/`-Infinity` unconditionally in its base number check (finite-by-default). This is a v4 behavior, not v3's — see `research.md`'s Follow-up Research section. Tests must assert generic rejection for `Infinity`, not "rejected via `.max(500)`".
 - `src/lib/` (`config-status.ts`, `database.types.ts`, `pocs.ts`, `profile.ts`, `sessions.ts`, `supabase.ts`, `users.ts`, `utils.ts`) is flat — no `validation/`/`schemas/` subfolder exists yet.
 - `tsconfig.json:9-11` — the `@/*` → `./src/*` path alias is not automatically understood by Vitest; it needs an explicit `resolve.alias` (or equivalent) in `vitest.config.ts`.
@@ -40,7 +40,7 @@ Add Vitest with a minimal, plain (non-Astro) config. Extract `logSessionSchema` 
 ## Critical Implementation Details
 
 - **Path alias resolution**: Vitest does not read `tsconfig.json`'s `paths` automatically. `vitest.config.ts` needs an explicit `resolve.alias` mapping `@` → `<repo-root>/src`, even though the Phase 2/3 module itself only imports `zod` — future unit tests under `src/lib/` will need the same alias to import sibling modules (e.g. `@/lib/database.types`), so set it up correctly now rather than only for the immediate need.
-- **zod v4 Infinity semantics**: don't assert *which* internal rule rejects `Infinity` (base check vs. `.max()`) — that's zod-version-dependent (see Key Discoveries). Assert only that `.safeParse(...).success` is `false`.
+- **zod v4 Infinity semantics**: don't assert _which_ internal rule rejects `Infinity` (base check vs. `.max()`) — that's zod-version-dependent (see Key Discoveries). Assert only that `.safeParse(...).success` is `false`.
 
 ## Phase 1: Vitest environment setup
 
@@ -65,6 +65,7 @@ Install Vitest, wire a minimal config (path alias, node environment), add npm sc
 **Intent**: Minimal, plain Vite config (no Astro integration needed — the modules under test in this plan have zero Astro imports) that resolves the `@/*` alias and runs in a `node` environment.
 
 **Contract**:
+
 ```ts
 import { defineConfig } from "vitest/config";
 import path from "node:path";
@@ -254,19 +255,19 @@ None — no data model or schema changes.
 
 #### Automated
 
-- [x] 3.1 `npm run test:unit` passes, every `it.each` case individually named
-- [x] 3.2 `npm run lint` passes
+- [x] 3.1 `npm run test:unit` passes, every `it.each` case individually named — bca0d57
+- [x] 3.2 `npm run lint` passes — bca0d57
 
 #### Manual
 
-- [x] 3.3 Vitest output reviewed for per-case legibility
+- [x] 3.3 Vitest output reviewed for per-case legibility — bca0d57
 
 ### Phase 4: Cookbook and change sync
 
 #### Automated
 
-- [ ] 4.1 `npm run format` reports no changes needed
+- [x] 4.1 `npm run format` reports no changes needed
 
 #### Manual
 
-- [ ] 4.2 §6.1/§6.4 re-read for actionability by a fresh contributor
+- [x] 4.2 §6.1/§6.4 re-read for actionability by a fresh contributor
