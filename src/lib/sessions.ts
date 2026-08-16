@@ -41,7 +41,8 @@ export async function logSession(
     .maybeSingle();
 
   if (pocError) {
-    throw pocError;
+    console.error("Failed to look up POC for session:", pocError);
+    throw new Error("Failed to log session");
   }
 
   if (poc?.owner_id !== hostId) {
@@ -66,7 +67,8 @@ export async function logSession(
     .single();
 
   if (error) {
-    throw error;
+    console.error("Failed to insert charging session:", error);
+    throw new Error("Failed to log session");
   }
 
   return mapRow(data);

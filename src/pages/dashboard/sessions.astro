@@ -3,7 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Topbar from "@/components/Topbar.astro";
 import LogSessionForm from "@/components/sessions/LogSessionForm";
 import { createClient } from "@/lib/supabase";
-import { listPocs } from "@/lib/pocs";
+import { listPocsForOwner } from "@/lib/pocs";
 
 const { user } = Astro.locals;
 // This page is under /dashboard, already gated by middleware — user is only ever
@@ -13,8 +13,7 @@ const currentUserId = user?.id ?? "";
 const error = Astro.url.searchParams.get("error");
 const success = Astro.url.searchParams.get("success") === "1";
 const supabase = createClient(Astro.request.headers, Astro.cookies);
-const pocs = supabase ? await listPocs(supabase) : [];
-const ownPocs = pocs.filter((poc) => poc.ownerId === currentUserId);
+const ownPocs = supabase ? await listPocsForOwner(supabase, currentUserId) : [];
 ---
 
 <Layout title="Log a charging session">

@@ -63,6 +63,7 @@ test("logging a session updates both host and seeker balances by the identical a
   await hostPage.goto("/dashboard/sessions");
   await selectOption(hostPage, hostPage.getByTestId("pocId"), pocLabel);
   await fillStable(hostPage.getByTestId("seekerEmail"), seekerEmail);
+  await hostPage.getByRole("option", { name: seekerEmail }).click();
   await fillStable(hostPage.getByTestId("kwh"), String(kwh));
   await hostPage.getByTestId("submit-button").click();
   await hostPage.waitForURL("/dashboard/sessions?success=1");

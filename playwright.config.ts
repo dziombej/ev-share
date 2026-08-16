@@ -33,6 +33,15 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         storageState: "playwright/.auth/user.json",
       },
+      dependencies: ["setup"],
+      testIgnore: "log-session-flow.spec.ts",
+    },
+    {
+      name: "chromium-two-actor",
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+      testMatch: "log-session-flow.spec.ts",
       dependencies: ["setup", "authenticate-seeker"],
     },
   ],
