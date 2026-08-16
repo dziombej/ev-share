@@ -242,24 +242,24 @@ None — no data model or schema changes.
 
 #### Automated
 
-- [x] 2.1 `npm run lint` passes
-- [x] 2.2 `npx astro check` (or `npm run build`) passes
-- [x] 2.3 `npm run test:unit` still passes
+- [x] 2.1 `npm run lint` passes — d41bd54
+- [x] 2.2 `npx astro check` (or `npm run build`) passes — d41bd54
+- [x] 2.3 `npm run test:unit` still passes — d41bd54
 
 #### Manual
 
-- [x] 2.4 `npm run test:e2e` — `log-session-flow.spec.ts` still passes (satisfied via equivalence evidence, not a passing run — see change.md notes)
+- [x] 2.4 `npm run test:e2e` — `log-session-flow.spec.ts` still passes (satisfied via equivalence evidence, not a passing run — see change.md notes) — d41bd54
 
 ### Phase 3: kWh guardrail unit tests
 
 #### Automated
 
-- [ ] 3.1 `npm run test:unit` passes, every `it.each` case individually named
-- [ ] 3.2 `npm run lint` passes
+- [x] 3.1 `npm run test:unit` passes, every `it.each` case individually named
+- [x] 3.2 `npm run lint` passes
 
 #### Manual
 
-- [ ] 3.3 Vitest output reviewed for per-case legibility
+- [x] 3.3 Vitest output reviewed for per-case legibility
 
 ### Phase 4: Cookbook and change sync
 
