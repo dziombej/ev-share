@@ -1,16 +1,20 @@
-# 10x Astro Starter
+# EV Share
 
-![](./public/template.png)
+A peer-to-peer EV charging exchange. Users register their own charging point
+(POC — home socket, garage, or dedicated charger), log charging sessions for
+other users, and track a pure kWh balance between accounts — no money
+involved. Full product spec: [`context/foundation/prd.md`](./context/foundation/prd.md).
 
-A modern, opinionated starter template for building fast, accessible web applications.
+**Core invariant**: every logged charging session debits one user and
+credits another by the identical kWh amount — no drift.
 
 ## Tech Stack
 
-- [Astro](https://astro.build/) v6 - Modern web framework with server-first rendering
-- [React](https://react.dev/) v19 - UI library for interactive components
+- [Astro](https://astro.build/) v6 - Server-first web framework (SSR, Cloudflare adapter)
+- [React](https://react.dev/) v19 - Interactive islands (forms, POC/session UI)
 - [TypeScript](https://www.typescriptlang.org/) v5 - Type-safe JavaScript
 - [Tailwind CSS](https://tailwindcss.com/) v4 - Utility-first CSS framework
-- [Supabase](https://supabase.com/) - Authentication and backend-as-a-service
+- [Supabase](https://supabase.com/) - Auth + Postgres backend
 - [Cloudflare Workers](https://workers.cloudflare.com/) - Edge deployment runtime
 
 ## Prerequisites
@@ -23,8 +27,8 @@ A modern, opinionated starter template for building fast, accessible web applica
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/przeprogramowani/10x-astro-starter.git
-cd 10x-astro-starter
+git clone <this-repository-url>
+cd ev-share
 ```
 
 2. Install dependencies:
@@ -55,6 +59,10 @@ npm run dev
 - `npm run lint` - Run ESLint with type-checked rules
 - `npm run lint:fix` - Auto-fix ESLint issues
 - `npm run format` - Run Prettier
+- `npm run test:unit` - Run unit tests (Vitest, single run)
+- `npm run test:unit:watch` - Run unit tests in watch mode
+- `npm run test:e2e` - Run e2e tests (Playwright; requires `npx supabase start`)
+- `npm run test:e2e:ui` - Run e2e tests in Playwright's UI mode
 
 ## Project Structure
 
@@ -62,17 +70,24 @@ npm run dev
 .
 ├── src/
 │ ├── layouts/ # Astro layouts
-│ ├── pages/ # Astro pages
-│ │ └── api/ # API endpoints
-│ ├── components/ # UI components (Astro & React)
-│ └── assets/ # Static assets
+│ ├── pages/ # Astro pages (dashboard, auth)
+│ │ └── api/ # API endpoints (auth, pocs, sessions, profile, users)
+│ ├── components/ # UI components (Astro & React), by feature: auth/ pocs/ sessions/ profile/
+│ ├── lib/ # Domain logic: pocs.ts, sessions.ts, profile.ts, users.ts, validation/
+│ └── types.ts # Shared domain types/DTOs
+├── supabase/migrations/ # Postgres schema (pocs, charging_sessions, profiles)
+├── e2e/specs/ # Playwright e2e tests
+├── context/foundation/ # Product spec, tech-stack decisions, test plan
 ├── public/ # Public assets
 ├── wrangler.jsonc # Cloudflare Workers config
 ```
 
 ## Supabase Configuration
 
-This project uses [Supabase](https://supabase.com/) for authentication. Environment variables are declared via Astro's `astro:env` schema and are treated as **server-only secrets** — they are never exposed to the client.
+This project uses [Supabase](https://supabase.com/) for authentication and as
+its Postgres database (POCs, charging sessions, profiles). Environment
+variables are declared via Astro's `astro:env` schema and are treated as
+**server-only secrets** — they are never exposed to the client.
 
 ### First-time setup (local, no cloud project needed)
 
@@ -84,34 +99,26 @@ Requires [Docker](https://www.docker.com/) and ~7 GB RAM.
 cp .env.example .env
 ```
 
-2. Initialize the local Supabase project (creates a `supabase/` config folder):
-
-```bash
-npx supabase init
-```
-
-3. Start the local stack (downloads Docker images on first run):
+2. Start the local stack (applies migrations under `supabase/migrations/`, downloads Docker images on first run):
 
 ```bash
 npx supabase start
 ```
 
-4. Copy the credentials printed by the CLI into your `.env` and `.dev.vars`:
+3. Copy the credentials printed by the CLI into your `.env` and `.dev.vars`:
 
 ```
 SUPABASE_URL=http://127.0.0.1:54321
 SUPABASE_KEY=<anon key from CLI output>
 ```
 
-5. To stop the stack when done:
+4. To stop the stack when done:
 
 ```bash
 npx supabase stop
 ```
 
 The local Studio UI is available at `http://localhost:54323`.
-
-No database tables or migrations are required — this project uses Supabase Auth's built-in `auth.users` table only.
 
 ### Using a cloud Supabase project instead
 
@@ -127,6 +134,8 @@ SUPABASE_URL=https://<project-ref>.supabase.co
 SUPABASE_KEY=<anon-key>
 ```
 
+Run `npx supabase db push` (or apply the SQL under `supabase/migrations/` manually) to create the schema on a fresh cloud project.
+
 ### Email confirmation in local development
 
 By default Supabase requires email confirmation before a user can sign in. To skip this during local development:
@@ -137,16 +146,25 @@ By default Supabase requires email confirmation before a user can sign in. To sk
 
 Users can then sign in immediately after sign-up without clicking a confirmation link.
 
-### Auth routes
+### App routes
 
-| Route                 | Description                                                             |
-| --------------------- | ----------------------------------------------------------------------- |
-| `/auth/signin`        | Email/password sign-in form                                             |
-| `/auth/signup`        | Email/password sign-up form                                             |
-| `/auth/confirm-email` | Post-signup "check your inbox" page                                     |
-| `/dashboard`          | Example protected page (redirects to `/auth/signin` if unauthenticated) |
+| Route                 | Description                                                  |
+| ---------------------- | -------------------------------------------------------------- |
+| `/auth/signin`        | Email/password sign-in form                                     |
+| `/auth/signup`        | Email/password sign-up form                                     |
+| `/auth/confirm-email` | Post-signup "check your inbox" page                              |
+| `/dashboard`          | Balance summary + transaction history (protected)                |
+| `/dashboard/pocs`     | Register/list/toggle/remove your charging points (protected)     |
+| `/dashboard/sessions` | Log a charging session and browse available POCs (protected)     |
 
 Route protection is handled in `src/middleware.ts`. Add paths to the `PROTECTED_ROUTES` array there to require authentication.
+
+## Testing
+
+- **Unit** (`src/**/*.test.ts`, Vitest) — hermetic tests for domain/validation logic, e.g. the kWh guardrail in `src/lib/validation/session.test.ts`.
+- **E2E** (`e2e/specs/*.spec.ts`, Playwright) — critical user flows: auth round-trip, dashboard session, logging a charging session end-to-end.
+
+Test scope and rationale are tracked in [`context/foundation/test-plan.md`](./context/foundation/test-plan.md), which maps each test suite back to a concrete product risk.
 
 ## Deployment
 
@@ -168,7 +186,7 @@ Set `SUPABASE_URL` and `SUPABASE_KEY` as secrets in your Cloudflare dashboard or
 
 ## CI
 
-GitHub Actions runs lint + build on every push and PR to `master`. Configure `SUPABASE_URL` and `SUPABASE_KEY` as repository secrets in GitHub for the build step.
+GitHub Actions runs lint + build (and e2e, where configured) on every push and PR to `master`. Configure `SUPABASE_URL` and `SUPABASE_KEY` as repository secrets in GitHub for the build step.
 
 ## License
 
