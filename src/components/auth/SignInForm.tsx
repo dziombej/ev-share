@@ -4,18 +4,23 @@ import { FormField } from "@/components/auth/FormField";
 import { PasswordToggle } from "@/components/auth/PasswordToggle";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { ServerError } from "@/components/auth/ServerError";
+import { formText } from "@/lib/form";
 
 interface Props {
   serverError?: string | null;
 }
 
 export default function SignInForm({ serverError }: Props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
-  function validate() {
+  // Reads the form rather than mirrored state — see FormField for why these
+  // inputs are uncontrolled.
+  function validate(form: HTMLFormElement) {
+    const data = new FormData(form);
+    const email = formText(data, "email");
+    const password = formText(data, "password");
+
     const next: typeof errors = {};
     if (!email.trim()) {
       next.email = "Email is required";
@@ -34,7 +39,7 @@ export default function SignInForm({ serverError }: Props) {
   }
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    if (!validate()) {
+    if (!validate(e.currentTarget)) {
       e.preventDefault();
     }
   }
@@ -45,9 +50,7 @@ export default function SignInForm({ serverError }: Props) {
         id="email"
         type="email"
         label="Email"
-        value={email}
-        onChange={(v) => {
-          setEmail(v);
+        onChange={() => {
           clearError("email");
         }}
         placeholder="you@example.com"
@@ -59,9 +62,7 @@ export default function SignInForm({ serverError }: Props) {
         id="password"
         label="Password"
         type={showPassword ? "text" : "password"}
-        value={password}
-        onChange={(v) => {
-          setPassword(v);
+        onChange={() => {
           clearError("password");
         }}
         placeholder="Your password"

@@ -10,7 +10,10 @@ interface FormFieldProps {
   name?: string;
   label: string;
   type?: string;
-  value: string;
+  // Deliberately no `value`: these inputs are uncontrolled so that anything
+  // typed before the island hydrates survives. onChange is for reacting to
+  // input (clearing errors, derived hints), never for owning the value —
+  // read values off the form with FormData at submit time instead.
   onChange: (value: string) => void;
   placeholder?: string;
   error?: string;
@@ -24,7 +27,6 @@ export function FormField({
   name,
   label,
   type = "text",
-  value,
   onChange,
   placeholder,
   error,
@@ -44,7 +46,6 @@ export function FormField({
           name={name ?? id}
           data-testid={id}
           type={type}
-          value={value}
           onChange={(e) => {
             onChange(e.target.value);
           }}
