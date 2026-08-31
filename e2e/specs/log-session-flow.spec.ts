@@ -1,5 +1,5 @@
 import { test, expect, type Locator, type Page } from "@playwright/test";
-import { fillStable, submitUntilNavigated } from "../utils";
+import { fillStable, submitUntilNavigated, waitForIslandsHydrated } from "../utils";
 
 // Radix Select's trigger occasionally doesn't visibly open on the first synthetic
 // click under Playwright, and a late Astro island hydration/remount can wipe an
@@ -74,8 +74,13 @@ test("logging a session updates both host and seeker balances by the identical a
   await seekerPage.goto("/");
   const seekerBalanceBefore = parseBalance(await seekerPage.getByTestId("balance").innerText());
 
-  // Host registers a fresh POC to log the session against.
+  // Host registers a fresh POC to log the session against. Waiting for the
+  // island to hydrate before filling matters more here than the retry wrapper
+  // does: this step's expectedUrl (/dashboard/pocs) is the URL the form is
+  // already on, so waitForURL cannot tell a successful submit from a blocked
+  // one — see e2e/specs/seed.spec.ts for the full explanation.
   await hostPage.goto("/dashboard/pocs");
+  await waitForIslandsHydrated(hostPage);
   await submitUntilNavigated(
     hostPage,
     async () => {
@@ -93,6 +98,7 @@ test("logging a session updates both host and seeker balances by the identical a
   // not just the field most recently touched, so success is gated on the real
   // outcome (the success redirect) — re-doing every field if that doesn't happen.
   await hostPage.goto("/dashboard/sessions");
+  await waitForIslandsHydrated(hostPage);
   await expect(async () => {
     await selectOption(hostPage, hostPage.getByTestId("pocId"), pocLabel);
     await searchAndSelect(hostPage, hostPage.getByTestId("seekerEmail"), seekerEmail, seekerEmail);

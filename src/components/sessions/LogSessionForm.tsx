@@ -7,6 +7,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { ServerError } from "@/components/auth/ServerError";
+import { formText } from "@/lib/form";
 import type { Poc, UserSearchResult } from "@/types";
 
 interface Props {
@@ -26,7 +27,6 @@ const SEARCH_DEBOUNCE_MS = 300;
 
 export default function LogSessionForm({ ownPocs, serverError, success }: Props) {
   const [pocId, setPocId] = useState("");
-  const [kwh, setKwh] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
 
   const [seekerQuery, setSeekerQuery] = useState("");
@@ -79,7 +79,13 @@ export default function LogSessionForm({ ownPocs, serverError, success }: Props)
     );
   }
 
-  function validate() {
+  // pocId and seekerId stay in state: they are set by the Select and the search
+  // combobox, which are unusable until React is live anyway. kwh is a plain
+  // uncontrolled input, so it is read off the form — anything typed there before
+  // hydration must still count. See src/components/pocs/PocForm.tsx.
+  function validate(form: HTMLFormElement) {
+    const kwh = formText(new FormData(form), "kwh");
+
     const next: FieldErrors = {};
     const amount = Number(kwh);
 
@@ -128,7 +134,7 @@ export default function LogSessionForm({ ownPocs, serverError, success }: Props)
   }
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    if (!validate()) {
+    if (!validate(e.currentTarget)) {
       e.preventDefault();
     }
   }
@@ -242,9 +248,7 @@ export default function LogSessionForm({ ownPocs, serverError, success }: Props)
           data-testid="kwh"
           type="number"
           step="any"
-          value={kwh}
-          onChange={(e) => {
-            setKwh(e.target.value);
+          onChange={() => {
             clearError("kwh");
           }}
           placeholder="10"

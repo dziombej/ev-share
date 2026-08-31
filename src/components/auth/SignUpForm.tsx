@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Mail, Lock, UserPlus } from "lucide-react";
 import { FormField } from "@/components/auth/FormField";
 import { PasswordToggle } from "@/components/auth/PasswordToggle";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { ServerError } from "@/components/auth/ServerError";
+import { formText } from "@/lib/form";
 
 const MIN_PASSWORD_LENGTH = 6;
 
@@ -12,14 +13,32 @@ interface Props {
 }
 
 export default function SignUpForm({ serverError }: Props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string; confirmPassword?: string }>({});
+  const formRef = useRef<HTMLFormElement>(null);
 
-  function validate() {
+  // Mirrors the password field's length for the "N more characters" hint only.
+  // The field itself is uncontrolled (see FormField), so this is a follower of
+  // the DOM, never its owner — validation still reads the form directly.
+  const [passwordLength, setPasswordLength] = useState(0);
+
+  // A password typed before this island hydrated fired no onChange, so seed the
+  // mirror from what is actually in the field. Safe precisely because the input
+  // is uncontrolled: React never blanked it.
+  useEffect(() => {
+    const field = formRef.current?.elements.namedItem("password");
+    if (field instanceof HTMLInputElement && field.value) {
+      setPasswordLength(field.value.length);
+    }
+  }, []);
+
+  function validate(form: HTMLFormElement) {
+    const data = new FormData(form);
+    const email = formText(data, "email");
+    const password = formText(data, "password");
+    const confirmPassword = formText(data, "confirmPassword");
+
     const next: typeof errors = {};
 
     if (!email.trim()) {
@@ -49,28 +68,33 @@ export default function SignUpForm({ serverError }: Props) {
   }
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    if (!validate()) {
+    if (!validate(e.currentTarget)) {
       e.preventDefault();
     }
   }
 
   const passwordHint =
-    !errors.password && password.length > 0 && password.length < MIN_PASSWORD_LENGTH ? (
+    !errors.password && passwordLength > 0 && passwordLength < MIN_PASSWORD_LENGTH ? (
       <p className="mt-1 text-xs text-blue-100/50">
-        {MIN_PASSWORD_LENGTH - password.length} more character
-        {MIN_PASSWORD_LENGTH - password.length !== 1 ? "s" : ""} needed
+        {MIN_PASSWORD_LENGTH - passwordLength} more character
+        {MIN_PASSWORD_LENGTH - passwordLength !== 1 ? "s" : ""} needed
       </p>
     ) : undefined;
 
   return (
-    <form method="POST" action="/api/auth/signup" className="space-y-4" onSubmit={handleSubmit} noValidate>
+    <form
+      ref={formRef}
+      method="POST"
+      action="/api/auth/signup"
+      className="space-y-4"
+      onSubmit={handleSubmit}
+      noValidate
+    >
       <FormField
         id="email"
         type="email"
         label="Email"
-        value={email}
-        onChange={(v) => {
-          setEmail(v);
+        onChange={() => {
           clearError("email");
         }}
         placeholder="you@example.com"
@@ -82,9 +106,8 @@ export default function SignUpForm({ serverError }: Props) {
         id="password"
         label="Password"
         type={showPassword ? "text" : "password"}
-        value={password}
         onChange={(v) => {
-          setPassword(v);
+          setPasswordLength(v.length);
           clearError("password");
         }}
         placeholder="Min. 6 characters"
@@ -106,9 +129,7 @@ export default function SignUpForm({ serverError }: Props) {
         name="confirmPassword"
         label="Confirm password"
         type={showConfirmPassword ? "text" : "password"}
-        value={confirmPassword}
-        onChange={(v) => {
-          setConfirmPassword(v);
+        onChange={() => {
           clearError("confirmPassword");
         }}
         placeholder="Re-enter your password"

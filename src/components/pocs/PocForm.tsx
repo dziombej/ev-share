@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { ServerError } from "@/components/auth/ServerError";
+import { formText } from "@/lib/form";
 
 interface Props {
   serverError?: string | null;
@@ -16,12 +17,21 @@ interface FieldErrors {
 }
 
 export default function PocForm({ serverError }: Props) {
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
-  const [powerRatingKw, setPowerRatingKw] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
 
-  function validate() {
+  // The inputs are deliberately uncontrolled and validation reads the form
+  // itself. Mirroring each field in React state would discard anything typed
+  // before this island hydrates: those keystrokes fire no onChange, so the
+  // state would stay empty, validation would reject a visibly-filled field,
+  // and the next re-render would blank the DOM node to match. The browser is
+  // already the source of truth for a form's values — read it, don't shadow it.
+  // Guarded by e2e/specs/poc-form-hydration.spec.ts.
+  function validate(form: HTMLFormElement) {
+    const data = new FormData(form);
+    const latitude = formText(data, "latitude");
+    const longitude = formText(data, "longitude");
+    const powerRatingKw = formText(data, "powerRatingKw");
+
     const next: FieldErrors = {};
     const lat = Number(latitude);
     const lng = Number(longitude);
@@ -48,7 +58,7 @@ export default function PocForm({ serverError }: Props) {
   }
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    if (!validate()) {
+    if (!validate(e.currentTarget)) {
       e.preventDefault();
     }
   }
@@ -65,9 +75,7 @@ export default function PocForm({ serverError }: Props) {
           data-testid="latitude"
           type="number"
           step="any"
-          value={latitude}
-          onChange={(e) => {
-            setLatitude(e.target.value);
+          onChange={() => {
             clearError("latitude");
           }}
           placeholder="52.2297"
@@ -86,9 +94,7 @@ export default function PocForm({ serverError }: Props) {
           data-testid="longitude"
           type="number"
           step="any"
-          value={longitude}
-          onChange={(e) => {
-            setLongitude(e.target.value);
+          onChange={() => {
             clearError("longitude");
           }}
           placeholder="21.0122"
@@ -107,9 +113,7 @@ export default function PocForm({ serverError }: Props) {
           data-testid="powerRatingKw"
           type="number"
           step="any"
-          value={powerRatingKw}
-          onChange={(e) => {
-            setPowerRatingKw(e.target.value);
+          onChange={() => {
             clearError("powerRatingKw");
           }}
           placeholder="11"

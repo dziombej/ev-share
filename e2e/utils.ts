@@ -32,3 +32,43 @@ export async function submitUntilNavigated(
     await page.waitForURL(expectedUrl, { timeout: 3_000 });
   }).toPass({ timeout: 30_000 });
 }
+
+/**
+ * Blocks until every Astro island on the page has finished hydrating.
+ *
+ * Astro server-renders each island inside `<astro-island ssr ...>` and removes
+ * the `ssr` attribute once the client component has mounted. Filling a
+ * *controlled* React island (e.g. PocForm's `useState("")` inputs) before that
+ * moment is silently undone: hydration re-applies the component's own empty
+ * state to the DOM node, the form then fails its client-side validation and
+ * calls `preventDefault()`, and the submit never reaches the server.
+ *
+ * This is the one place the suite selects on a framework element rather than a
+ * role/label (CLAUDE.md's locator rule): "the page is interactive" is not a
+ * user-facing thing and has no accessible representation. It is still a wait on
+ * real state, never a timeout.
+ */
+export async function waitForIslandsHydrated(page: Page) {
+  await expect(page.locator("astro-island[ssr]")).toHaveCount(0, { timeout: 10_000 });
+}
+
+/**
+ * Removes the caller's own charging point, identified by its coordinates.
+ *
+ * Never "remove the first one": the specs run fully parallel against one shared
+ * host account, so the newest POC in the list may well belong to another spec
+ * that is still using it. Scoping the click to the card carrying this test's
+ * unique coordinates is what keeps the specs independent.
+ *
+ * getByTestId here rather than a role/text locator because every card exposes
+ * an identical "Remove" button — containment is the only thing that tells them
+ * apart, and the card itself has no accessible name to select on.
+ */
+export async function removePocByCoords(page: Page, coords: string) {
+  const card = page.getByTestId(/^my-poc-[0-9a-f-]{36}$/).filter({ hasText: coords });
+
+  page.once("dialog", (dialog) => void dialog.accept());
+  await card.getByRole("button", { name: "Remove" }).click();
+
+  await expect(page.getByText(coords)).toHaveCount(0);
+}
